@@ -9,6 +9,7 @@ This repository bundles several Codex/OpenAI-style skills that help creators and
 | Skill | Purpose | Main artifact |
 | --- | --- | --- |
 | `xhs-hotnotes` | Search Xiaohongshu/RedNote hot notes by keyword and rank them by relevance, popularity, and recency. | HTML report + JSON output |
+| `xiaohongshu-content-tools` | Analyze Xiaohongshu note details, comments, creator posts, and keyword results through the Guaikei API. | JSON/Markdown output + local logs |
 | `gzh-explosive-content-detector` | Search WeChat Official Account explosive articles by keyword. | HTML report |
 | `baokuan-article-analysis` | Analyze hot WeChat articles by sector, merge keyword groups, deduplicate results, and generate a visual report. | HTML report + `data.json` |
 
@@ -17,6 +18,7 @@ This repository bundles several Codex/OpenAI-style skills that help creators and
 ```text
 skills/
   xhs-hotnotes/
+  xiaohongshu-content-tools/
   gzh-explosive-content-detector/
   baokuan-article-analysis/
 ```
@@ -40,6 +42,25 @@ python3 skills/xhs-hotnotes/scripts/fetch_xhs_hot_articles.py \
 python3 skills/gzh-explosive-content-detector/scripts/fetch_gzh_trends.py \
   --keyword "AI编程,Codex,Claude Code" \
   --start-date 2026-06-23
+```
+
+### Xiaohongshu content analysis
+
+```bash
+export GUAIKEI_API_TOKEN="your_api_token_here"
+
+node skills/xiaohongshu-content-tools/src/xiaohongshu/search-cli.js \
+  --keyword "夏季穿搭" \
+  --sort 2 \
+  --limit 20
+
+node skills/xiaohongshu-content-tools/src/xiaohongshu/detail-cli.js \
+  --url "https://www.xiaohongshu.com/explore/xxx?xsec_token=yyy" \
+  --limit 100
+
+node skills/xiaohongshu-content-tools/src/xiaohongshu/post-cli.js \
+  --url "https://www.xiaohongshu.com/user/profile/xxx?xsec_token=yyy" \
+  --limit 20
 ```
 
 ### WeChat sector analysis
