@@ -93,7 +93,7 @@ Key 也可以不写环境变量，放 `~/.baoyu-skills/.env`（它的加载优�
 
 在你配置之前，有两个选择：
 A. 你这张封面主视觉其实是文字（大字 + 目录 / 大字 + 副标题）→ 直接走
-   space-xhs-cover-html，HTML/CSS 精确排版，不需要任何 Key，中文零错字，现在就能出图。
+   xhs-html，HTML/CSS 精确排版，不需要任何 Key，中文零错字，现在就能出图。
 B. 确实需要插画感 → 我先把 prompt 全套写好存到 prompts/ 目录，你配好 Key 后
    一条命令批量出图。
 ```

@@ -19,7 +19,7 @@ description: 小红书创作总控台。判断用户当前卡在哪一环，路�
 | `space-xhs-hotspot` | 热点选题：拉近期高互动笔记、判趋势、爆款共性提取、跨赛道对比、出选题卡 | 不写正文、不起标题 |
 | `space-xhs-title` | 标题：15 种小红书方法批量出候选、评分、合规校验、A/B 建议 | 不写正文 |
 | `space-xhs-writer` | 正文：7 种笔记类型、开头 3 行、标签策略、合规改写、发布前 14 项体检 | 不做标题矩阵、不出图 |
-| `space-xhs-cover-html` | 封面（**排版型**）：大字+目录 / 大字+副标题，品牌设计风格驱动，HTML/CSS 精确渲染 1080×1440 | 不出插画、不画氛围图 |
+| `xhs-html` | 图文排版：内容拆成 6 张以上 3:4 单文件 HTML，62 种风格、页数选择、逐页校验 | 不出插画、不画氛围图 |
 | `space-xhs-cover-image` | 封面与内页（**画面型**）：AI 生图，白底简约手绘 + Notion 风，配图位识别 + prompt 模板库 | 中文字不可靠，不做精确排版 |
 | `space-xhs-account-audit` | 账号体检：八维打分、竞品对标、卡点定位 | 不做单篇数据复盘 |
 | `space-xhs-note-analytics` | 笔记复盘：六层漏斗归因、多篇横向找规律 | 不做账号整体诊断 |
@@ -27,8 +27,8 @@ description: 小红书创作总控台。判断用户当前卡在哪一环，路�
 **两组最容易串台的**：
 
 1. **账号级 vs 笔记级**：问"我的号为什么不涨粉"→ `account-audit`；问"这条为什么没流量"→ `note-analytics`。
-2. **两个封面技能**：默认走 `cover-html`——小红书大多数首图本来就是"大字 + 目录/副标题"，HTML 排版中文零错字、可量化、可复用模板。只有需要插画感、手绘感、氛围底图时才走 `cover-image`。
-   **最强组合是两个一起用**：`cover-image` 出无字底图（prompt 里预留文字区）→ `cover-html` 精确叠字。
+2. **两个视觉技能**：默认走 `xhs-html`——它负责把内容拆成封面与 6 张以上内页，中文零错字、可量化、可复用模板。只有需要插画感、手绘感、氛围底图时才走 `cover-image`。
+   **最强组合是两个一起用**：`cover-image` 出无字底图（prompt 里预留文字区）→ `xhs-html` 负责中文排版和整组页序。
 
 ---
 
@@ -40,9 +40,9 @@ description: 小红书创作总控台。判断用户当前卡在哪一环，路�
 |---|---|---|
 | "想做小红书但不知道做什么" / 只丢来一段自我介绍 | 还没定位 | `positioning` |
 | "定位有了，不知道写什么" | 缺选题 | `hotspot` |
-| "有素材/有想法，要变成笔记" | 生产 | `writer` → `title` → `cover-html` |
+| "有素材/有想法，要变成笔记" | 生产 | `writer` → `title` → `xhs-html` |
 | "标题不行 / 没人点" | 单点优化 | `title`（先确认是 CTR 低还是曝光就低） |
-| "封面不好看 / 想统一风格" | 单点优化 | `cover-html` |
+| "封面不好看 / 想统一风格" | 单点优化 | `xhs-html` |
 | "想要手绘风/插画封面" / "给笔记配几张图" | 视觉生产 | `cover-image` |
 | "发了没数据 / 这条为什么不行" | 单篇复盘 | `note-analytics` |
 | "号做了一阵没起色 / 帮我看看主页" | 账号体检 | `account-audit` |
@@ -59,7 +59,7 @@ description: 小红书创作总控台。判断用户当前卡在哪一环，路�
 ### 链 A：从零起号（用户没做过小红书）
 
 ```
-positioning ──► hotspot ──► writer ──► title ──► cover-html ──► 发布
+positioning ──► hotspot ──► writer ──► title ──► xhs-html ──► 发布
      │                                                        │
      └──────────── 累计 20-30 篇后 ────► account-audit ◄───────┘
 ```
@@ -68,7 +68,7 @@ positioning ──► hotspot ──► writer ──► title ──► cover-h
 2. 从前 20 篇里挑第 1 篇，用 `hotspot` 验证这个方向近期有没有流量、找对标笔记
 3. `writer` 写正文（此时定位和对标都已在手，正文质量最高）
 4. `title` 基于正文出标题矩阵
-5. `cover-html` 把标题压到 ≤12 字做封面
+5. `xhs-html` 把正文拆成 6 张以上图文，首图文案压到 ≤12 字
 6. 发布后攒够数据 → `note-analytics` 单篇复盘；攒够 20-30 篇 → `account-audit` 复诊
 
 **停顿点**：第 1 步结束必须让用户确认定位；第 3 步结束必须让用户补真实细节（`writer` 会标 `[此处需你补真实细节]`，不要替他编）。
@@ -76,7 +76,7 @@ positioning ──► hotspot ──► writer ──► title ──► cover-h
 ### 链 B：日常产出（定位已定，出一篇笔记）
 
 ```
-hotspot ──► writer ──► title ──► cover-html
+hotspot ──► writer ──► title ──► xhs-html
 ```
 
 最常用的一条。`hotspot` 的选题卡可以整条粘给 `writer`。
@@ -88,7 +88,7 @@ hotspot ──► writer ──► title ──► cover-html
 ```
                  ┌─ 曝光就低 ──────────► account-audit（标签/定位/权重问题）
 note-analytics ──┤
-                 ├─ 曝光够但 CTR 低 ───► title + cover-html
+                 ├─ 曝光够但 CTR 低 ───► title + xhs-html
                  └─ 点击够但互动低 ───► writer（开头留人/价值兑现）
 ```
 
@@ -109,9 +109,9 @@ env | grep -E '^(REDFOX_API_KEY|SOCIALDATAX_API_KEY|GUAIKEI_API_TOKEN)=' | sed '
 | 有任一 Key | `hotspot` 能拉真实互动数据，`account-audit` 能量化分析 |
 | 都没有 | 两者降级为 WebSearch / 截图定性路径，**仍可用**，但拿不到互动数。此时禁止编造互动量级，结论要标注"未经数据验证" |
 
-其余五个技能（`positioning` / `title` / `writer` / `cover-html` / `note-analytics`）**不需要任何 Key**，随时可用。`cover-html` 的 HTML 渲染链路依赖 playwright + 本机 Chrome，`note-analytics` 的表格处理依赖 pandas。
+其余五个技能（`positioning` / `title` / `writer` / `xhs-html` / `note-analytics`）**不需要任何 Key**，随时可用。`xhs-html` 的 HTML 渲染链路依赖 playwright + 本机 Chrome，`note-analytics` 的表格处理依赖 pandas。
 
-`cover-image` 是唯一还需要**生图后端**的（codex CLI / `GOOGLE_API_KEY` / `OPENAI_API_KEY` / `DASHSCOPE_API_KEY`），跑 `bash ~/.claude/skills/space-xhs-cover-image/scripts/detect_backend.sh` 一键探测。没有后端时它会把 prompt 全套写好但不出图，此时应提示用户：纯文字封面走 `cover-html` 零成本零依赖。
+`cover-image` 是唯一还需要**生图后端**的（codex CLI / `GOOGLE_API_KEY` / `OPENAI_API_KEY` / `DASHSCOPE_API_KEY`），跑 `bash ~/.claude/skills/space-xhs-cover-image/scripts/detect_backend.sh` 一键探测。没有后端时它会把 prompt 全套写好但不出图，此时应提示用户：纯文字封面走 `xhs-html` 零成本零依赖。
 
 ---
 

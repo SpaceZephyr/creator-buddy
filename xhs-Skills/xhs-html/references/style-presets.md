@@ -1,8 +1,8 @@
-# 12 套现成风格 TOKEN（离线可用，已过对比度验证）
+# 12 套现成图文风格 TOKEN（离线可用，已过对比度验证）
 
 `npx getdesign` 拉不到时（无网络 / 无 Node）用这里的块**兜底**；能联网时优先拉真规范，这里的值是近似还原。
 
-用法：整块替换 `assets/cover-template.html` 的 `:root{...}` 颜色与排版段，其余不动。
+用法：整块替换 `assets/xhs-template.html` 的 `:root{...}` 颜色与排版段，其余不动。
 每套下方标注了实测对比度（用 `scripts/check_contrast.py` 算的，主标题 ≥7:1、accent ≥4.5:1 全部达标）。
 
 **深色套装记得同时设 `<body data-mood="dark">`。**
@@ -15,7 +15,7 @@
 --accent:#0058B8; --on-accent:#FFFFFF; --hairline:rgba(0,0,0,.08);
 --title-weight:700; --title-tracking:-0.03em; --title-leading:1.08; --radius:16px; --rhythm:56px;
 ```
-ink 15.5:1 · accent 6.3:1 ｜ 配 `data-layout="sub" data-align="center"`，`--t1` 拉到 150px，目录只用 `line`
+ink 15.5:1 · accent 6.3:1 ｜ 首页留白最大；内页使用浅灰卡片和蓝色细节
 
 ## 2. Notion — 纸感暖极简，知识工具
 ```css
@@ -23,7 +23,7 @@ ink 15.5:1 · accent 6.3:1 ｜ 配 `data-layout="sub" data-align="center"`，`--
 --accent:#8A5A3B; --on-accent:#FFFFFF; --hairline:rgba(0,0,0,.10);
 --title-weight:700; --title-tracking:-0.015em; --title-leading:1.2; --radius:8px; --rhythm:40px;
 ```
-ink 17.9:1 · accent 5.4:1 ｜ 目录用 `card` 或 `line`；衬线标题可把 `--font-display` 换 `"Songti SC"`
+ink 17.9:1 · accent 5.4:1 ｜ 清单页使用 `card` 或 `line`；标题可用 `"Songti SC"` 增加编辑感
 
 ## 3. Claude — 赭石暖调 + 编辑感，人文智识
 ```css
@@ -63,7 +63,7 @@ ink 15.5:1 · accent 5.7:1 ｜ Stripe 网页用 300 字重，封面**不要照�
 --accent:#F0393E; --on-accent:#FFFFFF; --hairline:rgba(255,255,255,.14);
 --title-weight:600; --title-tracking:-0.03em; --title-leading:1.06; --radius:4px; --rhythm:56px;
 ```
-ink 20.4:1 · accent 5.2:1 ｜ 只配 `data-layout="sub" data-align="center"`，字越少越对
+ink 20.4:1 · accent 5.2:1 ｜ 首页字越少越对；内页用细线和大数字保持力量感
 
 ## 8. NVIDIA — 荧光绿 + 纯黑，硬核算力
 ```css
@@ -111,12 +111,12 @@ ink 13.5:1 · accent 7.5:1 ｜ **大面积高饱和底色在双列信息流里�
 
 ```bash
 # 1) 复制模板
-cp assets/cover-template.html work/cover.html
+cp assets/xhs-template.html work/index.html
 # 2) 把上面某一块贴进 :root（颜色 + 排版段）
 # 3) 深色套装额外改 <body data-mood="dark">
 # 4) 验证 + 出图
-python3 scripts/check_contrast.py --tokens work/cover.html
-python3 scripts/render_cover.py --html work/cover.html --out work/cover.png --ratio 3:4
+python3 scripts/check_contrast.py --tokens work/index.html
+node scripts/render_xhs.mjs --html work/index.html --out-dir /tmp/xhs-check --strict
 ```
 
 **这 12 套之外的品牌**（共 62 个）见 `references/style-registry.md`，联网时用 getdesign 拉真规范。

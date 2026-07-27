@@ -52,11 +52,11 @@ else
 fi
 
 # ---------- 3. 兜底 ----------
-HTMLSKILL="${HOME}/.claude/skills/space-xhs-cover-html/SKILL.md"
+HTMLSKILL="${HOME}/.claude/skills/xhs-html/SKILL.md"
 if [ -f "$HTMLSKILL" ]; then
-  echo "[3] 兜底           : space-xhs-cover-html 已安装（纯 HTML 排版，不需要任何 Key）"
+  echo "[3] 兜底           : xhs-html 已安装（纯 HTML 排版，不需要任何 Key）"
 else
-  echo "[3] 兜底           : space-xhs-cover-html 未安装"
+  echo "[3] 兜底           : xhs-html 未安装"
 fi
 
 echo "----------------------------------------"
@@ -74,7 +74,7 @@ cat <<'EOF'
   export DASHSCOPE_API_KEY=...   # https://bailian.console.aliyun.com/  （通义万相，国内直连）
 写进 ~/.zshrc 后重开终端。
 
-不想配 Key 的话：纯文字型封面用 space-xhs-cover-html，HTML/CSS 精确排版，
+不想配 Key 的话：纯文字型封面用 xhs-html，HTML/CSS 精确排版，
 零依赖零成本，且中文零错字——多数「大字 + 目录 / 大字 + 副标题」封面本来就该走那条路。
 EOF
 exit 1

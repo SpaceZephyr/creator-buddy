@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>小红书多页图文模板</title>
+<style>
+:root{
+  --canvas:#FFFFFF;
+  --surface:#F5F5F7;
+  --surface-2:#EAF4FF;
+  --ink:#1D1D1F;
+  --text:#424245;
+  --muted:#86868B;
+  --line:#E5E5EA;
+  --accent:#0058B8;
+  --on-accent:#FFFFFF;
+  --success:#248A3D;
+  --danger:#D70015;
+  --radius:26px;
+  --title-weight:760;
+  --title-tracking:-.035em;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","PingFang SC","Helvetica Neue",sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#D9D9DE;scroll-behavior:smooth}
+body{
+  min-width:1080px;
+  padding:40px 0;
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+  color:var(--ink);
+  font-family:var(--font);
+  -webkit-font-smoothing:antialiased;
+}
+
+.sheet{
+  width:1080px;
+  height:1440px;
+  flex:none;
+  margin:0 auto;
+  padding:90px;
+  position:relative;
+  overflow:hidden;
+  background:var(--canvas);
+}
+.page-index{
+  position:absolute;
+  top:92px;
+  right:90px;
+  color:var(--muted);
+  font-size:30px;
+  font-weight:650;
+}
+.eyebrow{
+  color:var(--accent);
+  font-size:32px;
+  line-height:1;
+  font-weight:750;
+  letter-spacing:.04em;
+}
+.head{
+  margin-top:74px;
+  max-width:900px;
+}
+.head h2{
+  font-size:72px;
+  line-height:1.12;
+  letter-spacing:var(--title-tracking);
+  font-weight:var(--title-weight);
+}
+.head p{
+  margin-top:22px;
+  max-width:850px;
+  color:var(--muted);
+  font-size:38px;
+  line-height:1.48;
+  font-weight:520;
+}
+.content{margin-top:50px}
+.bottom-rule{
+  position:absolute;
+  left:90px;
+  right:90px;
+  bottom:72px;
+  height:2px;
+  background:var(--line);
+}
+.bottom-rule::after{
+  content:"";
+  position:absolute;
+  right:0;
+  top:-4px;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--accent);
+}
+
+/* 封面 */
+.cover{
+  background:linear-gradient(155deg,var(--canvas) 0%,var(--canvas) 62%,var(--surface-2) 100%);
+}
+.cover h1{
+  margin-top:150px;
+  max-width:900px;
+  font-size:96px;
+  line-height:1.1;
+  letter-spacing:-.05em;
+  font-weight:var(--title-weight);
+}
+.cover h1 em{font-style:normal;color:var(--accent)}
+.cover .lede{
+  margin-top:34px;
+  max-width:820px;
+  color:var(--muted);
+  font-size:42px;
+  line-height:1.48;
+}
+.cover-result{
+  position:absolute;
+  left:90px;
+  right:90px;
+  bottom:250px;
+  min-height:250px;
+  padding:38px;
+  border-radius:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:28px;
+  background:var(--surface-2);
+}
+.cover-result span{
+  padding:24px 28px;
+  border-radius:20px;
+  background:var(--canvas);
+  color:var(--text);
+  font-size:36px;
+  font-weight:650;
+}
+.cover-result b{color:var(--accent);font-size:52px}
+.account{
+  position:absolute;
+  left:90px;
+  bottom:94px;
+  font-size:36px;
+  font-weight:650;
+}
+
+/* 通用组件 */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+.card{
+  min-height:250px;
+  padding:28px;
+  border-radius:var(--radius);
+  background:var(--surface);
+}
+.card b{
+  color:var(--accent);
+  font-size:30px;
+}
+.card h3{
+  margin-top:20px;
+  font-size:42px;
+  line-height:1.25;
+}
+.card p{
+  margin-top:18px;
+  color:var(--muted);
+  font-size:34px;
+  line-height:1.45;
+}
+
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+.panel{
+  min-height:470px;
+  padding:34px;
+  border:2px solid var(--line);
+  border-radius:var(--radius);
+}
+.panel h3{
+  font-size:46px;
+  line-height:1.25;
+}
+.panel ul{
+  margin-top:28px;
+  list-style:none;
+  display:grid;
+  gap:22px;
+}
+.panel li{
+  color:var(--text);
+  font-size:38px;
+  line-height:1.42;
+}
+.panel li::before{
+  content:"";
+  display:inline-block;
+  width:14px;
+  height:14px;
+  margin-right:18px;
+  border-radius:50%;
+  background:var(--accent);
+  transform:translateY(-4px);
+}
+
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+.step{
+  min-height:360px;
+  padding:28px;
+  border:2px solid var(--line);
+  border-radius:var(--radius);
+}
+.step span{
+  width:54px;
+  height:54px;
+  display:grid;
+  place-items:center;
+  border-radius:16px;
+  background:var(--accent);
+  color:var(--on-accent);
+  font-size:30px;
+  font-weight:750;
+}
+.step h3{
+  margin-top:28px;
+  font-size:44px;
+  line-height:1.22;
+}
+.step p{
+  margin-top:18px;
+  color:var(--muted);
+  font-size:34px;
+  line-height:1.45;
+}
+
+.code-card{
+  padding:36px 40px;
+  border-radius:32px;
+  background:var(--surface);
+  box-shadow:inset 0 0 0 2px var(--line);
+}
+.code-card pre{
+  white-space:pre-wrap;
+  color:var(--ink);
+  font:560 36px/1.55 var(--font);
+}
+.code-card mark{
+  padding:2px 8px;
+  border-radius:8px;
+  background:var(--surface-2);
+  color:var(--accent);
+}
+.note{
+  margin-top:26px;
+  padding:24px 28px;
+  border-radius:22px;
+  background:var(--surface-2);
+  color:var(--accent);
+  font-size:36px;
+  line-height:1.45;
+  font-weight:620;
+}
+#p05 .content{margin-top:36px}
+#p05 .code-card{padding:30px 36px}
+#p05 .code-card pre{font-size:34px;line-height:1.48}
+#p05 .note{margin-top:20px;padding:20px 28px}
+
+.checklist{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.check{
+  min-height:138px;
+  padding:24px;
+  border:2px solid var(--line);
+  border-radius:24px;
+  display:grid;
+  grid-template-columns:46px 1fr;
+  gap:16px;
+  color:var(--text);
+  font-size:37px;
+  line-height:1.4;
+}
+.check b{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--success);
+  color:#fff;
+  font-size:27px;
+}
+
+@media print{
+  html,body{background:#fff}
+  body{display:block;padding:0}
+  .sheet{margin:0;page-break-after:always}
+}
+</style>
+</head>
+<body>
+
+<!-- 复制或删除 .sheet 来匹配用户选择的页数；总数必须不少于 6。 -->
+
+<section class="sheet cover" id="p01">
+  <span class="page-index">01 / 06</span>
+  <div class="eyebrow">你的栏目名</div>
+  <h1>一句话讲清<br>用户能得到的<em>结果</em></h1>
+  <p class="lede">用一行补充对象、范围或门槛，不复述标题。</p>
+  <div class="cover-result">
+    <span>用户当前状态</span>
+    <b>→</b>
+    <span>看完后的结果</span>
+  </div>
+  <div class="account">你的账号名</div>
+  <div class="bottom-rule"></div>
+</section>
+
+<section class="sheet" id="p02">
+  <span class="page-index">02 / 06</span>
+  <div class="eyebrow">结果预览</div>
+  <header class="head">
+    <h2>先让用户看到<br>这篇能解决什么</h2>
+    <p>第 2 页不要复述封面，直接给结果、地图或完整链路。</p>
+  </header>
+  <main class="content cards">
+    <article class="card"><b>01</b><h3>第一个结果</h3><p>一句话说明得到什么。</p></article>
+    <article class="card"><b>02</b><h3>第二个结果</h3><p>一句话说明得到什么。</p></article>
+    <article class="card"><b>03</b><h3>第三个结果</h3><p>一句话说明得到什么。</p></article>
+  </main>
+  <div class="bottom-rule"></div>
+</section>
+
+<section class="sheet" id="p03">
+  <span class="page-index">03 / 06</span>
+  <div class="eyebrow">准备</div>
+  <header class="head">
+    <h2>开始之前<br>先准备这两类材料</h2>
+    <p>把输入和边界说清，后面的步骤才不会跑偏。</p>
+  </header>
+  <main class="content split">
+    <section class="panel"><h3>需要准备</h3><ul><li>输入文件或原始内容</li><li>目标读者与使用场景</li><li>预期的输出形式</li></ul></section>
+    <section class="panel"><h3>提前确认</h3><ul><li>不能改动的原始数据</li><li>必须保留的字段</li><li>结果如何验收</li></ul></section>
+  </main>
+  <div class="bottom-rule"></div>
+</section>
+
+<section class="sheet" id="p04">
+  <span class="page-index">04 / 06</span>
+  <div class="eyebrow">执行</div>
+  <header class="head">
+    <h2>把任务拆成<br>这 3 个可执行步骤</h2>
+    <p>每一步都写清动作、输入和完成标准。</p>
+  </header>
+  <main class="content steps">
+    <article class="step"><span>1</span><h3>先做什么</h3><p>给出具体动作，不写抽象口号。</p></article>
+    <article class="step"><span>2</span><h3>再做什么</h3><p>补充关键参数、字段或规则。</p></article>
+    <article class="step"><span>3</span><h3>完成标准</h3><p>告诉用户看到什么才算完成。</p></article>
+  </main>
+  <div class="bottom-rule"></div>
+</section>
+
+<section class="sheet" id="p05">
+  <span class="page-index">05 / 06</span>
+  <div class="eyebrow">可直接复制</div>
+  <header class="head">
+    <h2>给一份能马上用的<br>提示词或模板</h2>
+    <p>保留必要字段和边界，让用户只改少量内容就能使用。</p>
+  </header>
+  <main class="content">
+    <section class="code-card">
+      <pre>处理 <mark>[输入文件或内容]</mark>。
+
+目标：
+1. 生成……
+2. 保留……
+3. 标记……
+
+结果存入 <mark>[输出位置]</mark>，
+不要覆盖原始文件。
+
+先复述规则，确认后再执行。</pre>
+    </section>
+    <p class="note">把用户真正要改的 2–3 个位置高亮，其余保持可直接复制。</p>
+  </main>
+  <div class="bottom-rule"></div>
+</section>
+
+<section class="sheet" id="p06">
+  <span class="page-index">06 / 06</span>
+  <div class="eyebrow">验收与复用</div>
+  <header class="head">
+    <h2>完成以后<br>检查这 6 项</h2>
+    <p>最后一页给判断标准，不写空泛的关注口号。</p>
+  </header>
+  <main class="content checklist">
+    <div class="check"><b>✓</b><span>输入和输出数量一致</span></div>
+    <div class="check"><b>✓</b><span>关键字段没有遗漏</span></div>
+    <div class="check"><b>✓</b><span>异常情况已被标记</span></div>
+    <div class="check"><b>✓</b><span>结果可以回溯原文</span></div>
+    <div class="check"><b>✓</b><span>原始文件没有被覆盖</span></div>
+    <div class="check"><b>✓</b><span>下次只需替换输入</span></div>
+  </main>
+  <div class="bottom-rule"></div>
+</section>
+
+</body>
+</html>

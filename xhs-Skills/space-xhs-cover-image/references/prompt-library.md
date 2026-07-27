@@ -41,7 +41,7 @@ patterns, no watermark, no logo, no border frame around the canvas edge.
 ### C1 · 单主体符号封面 —— 大留白 + 一个符号
 
 **适用**：观点输出、单一概念、个人故事。内容说不清但情绪很强的时候用这个。
-**文字策略**：底图无字 → 交 `space-xhs-cover-html` 叠字（推荐）；或只画 1 个英文短词。
+**文字策略**：底图无字 → 交 `xhs-html` 叠字（推荐）；或只画 1 个英文短词。
 
 ```
 {BASE}

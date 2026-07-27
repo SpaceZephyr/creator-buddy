@@ -477,7 +477,7 @@ space-xhs-positioning（本 skill：定方向）
         ├─→ space-xhs-hotspot        找选题、验证赛道热度、补充选题池
         ├─→ space-xhs-title          给选题起标题
         ├─→ space-xhs-writer         写正文
-        └─→ space-xhs-cover-html          做封面
+        └─→ xhs-html          做封面
                     │
              （做满 30 篇 / 3 个月后）
                     ↓
@@ -490,7 +490,7 @@ space-xhs-positioning（本 skill：定方向）
 定位就到这。接下来：
 - 想开始找具体写什么 → 用 space-xhs-hotspot 拉一遍「{赛道词}」的热点
 - 选题有了要起标题 → space-xhs-title
-- 要写正文 → space-xhs-writer ｜ 要做封面 → space-xhs-cover-html
+- 要写正文 → space-xhs-writer ｜ 要做封面 → xhs-html
 - 等你发满 30 篇或做够 3 个月，回来用 space-xhs-account-audit 复诊一次，
   那时候有数据了，定位可以做第二次校准。
 ```

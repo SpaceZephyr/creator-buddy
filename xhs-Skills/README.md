@@ -13,7 +13,7 @@
 | `space-xhs-hotspot` | 热点选题：拉高互动笔记、判趋势、爆款共性提取、跨赛道对比 | ✅ |
 | `space-xhs-title` | 爆款标题：15 种小红书方法批量出候选、评分、合规校验、A/B 建议 | — |
 | `space-xhs-writer` | 笔记正文：7 种笔记类型、标签策略、合规改写、发布前 14 项体检 | — |
-| `space-xhs-cover-html` | 封面（**排版型**）：大字+目录 / 大字+副标题，品牌风格驱动，精确渲染 | — |
+| `xhs-html` | 图文排版：内容拆成 6 张以上 3:4 单文件 HTML，62 种风格、页数选择、逐页校验 | — |
 | `space-xhs-cover-image` | 封面与内页（**画面型**）：AI 生图，白底简约手绘 + Notion 风 | ✅ |
 | `space-xhs-account-audit` | 账号体检：八维打分、竞品对标、卡点定位 | 可选 |
 | `space-xhs-note-analytics` | 笔记复盘：六层漏斗归因、多篇横向找规律 | — |
@@ -23,6 +23,7 @@
 ```bash
 git clone https://github.com/SpaceZephyr/creator-buddy.git
 cp -r creator-buddy/xhs-Skills/space-xhs-* ~/.claude/skills/
+cp -r creator-buddy/xhs-Skills/xhs-html ~/.claude/skills/
 ```
 
 装完在 Claude Code 里说「帮我做小红书」会自动路由到总控，或直接点名环节，比如「帮我看看这条笔记数据」。
@@ -44,24 +45,24 @@ export GUAIKEI_API_TOKEN=...     # https://www.guaikei.com  详情 + 评论 + �
 ## 三条标准工作流
 
 ```
-链 A 从零起号   positioning → hotspot → writer → title → cover-html → 发布
+链 A 从零起号   positioning → hotspot → writer → title → xhs-html → 发布
                               ↳ 累计 20-30 篇后回 account-audit 复诊
 
-链 B 日常产出   hotspot → writer → title → cover-html
+链 B 日常产出   hotspot → writer → title → xhs-html
 
 链 C 诊断改进   note-analytics 定位卡在漏斗哪一层
                   ├ 曝光就低      → account-audit（标签/定位/权重）
-                  ├ 曝光够 CTR 低 → title + cover-html
+                  ├ 曝光够 CTR 低 → title + xhs-html
                   └ 点击够互动低  → writer（开头留人/价值兑现）
 ```
 
 **链 C 的顺序不能反。** 跳过诊断直接改标题是最常见的浪费 —— 曝光就低的时候，标题不是问题。
 
-## 两个封面 Skill 怎么选
+## 两个视觉 Skill 怎么选
 
-- **默认 `cover-html`**：小红书大多数首图本来就是"大字 + 目录/副标题"。HTML/CSS 排版中文零错字、字号对比度安全区全部可量化、可固化成账号模板批量改字。
+- **默认 `xhs-html`**：把文章、教程、SOP 或清单拆成 6 张以上 3:4 图文，并输出一个可连续截图的 HTML；文字、字号、对比度和安全区都可精确控制。
 - **需要插画/手绘/氛围时用 `cover-image`**。
-- **最强是两个一起用**：`cover-image` 出无字底图（prompt 预留文字区）→ `cover-html` 精确叠字。AI 画中文经常缺笔画串行，别让它画标题。
+- **最强是两个一起用**：`cover-image` 出无字底图（prompt 预留文字区）→ `xhs-html` 负责中文排版和多页结构。AI 画中文经常缺笔画串行，别让它画标题。
 
 ## 设计上的几个取舍
 
@@ -69,7 +70,7 @@ export GUAIKEI_API_TOKEN=...     # https://www.guaikei.com  详情 + 评论 + �
 
 **规则要能约束生成本身，而不只是写给人看。** 例：`title` 的红线规定正文不是 step-by-step 就不许用"保姆级"—— 哪怕"保姆级"是这个赛道点击率最高的钩子，它也会把这类候选直接淘汰。
 
-**纪律尽量写进代码。** `note-analytics` 的脚本会自动拒绝 n<3 分组的比较、在均值/中位数 >2 时告警"别引用平均值"；`cover-html` 的渲染脚本会检测内容溢出并支持 `--strict` 非 0 退出。写在文档里模型可能不看，写进代码就绕不过去。
+**纪律尽量写进代码。** `note-analytics` 的脚本会自动拒绝 n<3 分组的比较、在均值/中位数 >2 时告警"别引用平均值"；`xhs-html` 的渲染脚本会逐页检查 1080×1440 尺寸、最少页数和内容溢出，并支持 `--strict` 非 0 退出。写在文档里模型可能不看，写进代码就绕不过去。
 
 **不编造。** 没有数据源就不报互动数字，没有对标笔记就不给选题，接口拿不到粉丝数就标"无法计算"而不是估算。
 

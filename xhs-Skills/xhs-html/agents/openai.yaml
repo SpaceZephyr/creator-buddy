@@ -1,0 +1,4 @@
+interface:
+  display_name: "小红书图文 HTML"
+  short_description: "将内容排成 6 张以上、可连续截图的 3:4 小红书 HTML 图文"
+  default_prompt: "使用 $xhs-html 把我的内容排成 3:4 多页小红书图文 HTML。"

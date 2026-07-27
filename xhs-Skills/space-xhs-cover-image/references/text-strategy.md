@@ -77,7 +77,7 @@ no Chinese characters, no numbers anywhere else.
 
 ---
 
-### 路线 C：无字底图 + `space-xhs-cover-html` 叠字 ← 默认推荐
+### 路线 C：无字底图 + `xhs-html` 叠字 ← 默认推荐
 
 这是文字可控性和画面质感的唯一兼得方案。
 
@@ -91,9 +91,9 @@ no Chinese characters, no numbers anywhere else.
    ```
    预留区和后面 HTML 里放标题的位置必须对得上，否则叠出来会压到插画。
 2. 跑 `scripts/check_image.py` 确认尺寸、白底、下安全区。
-3. 移交 `space-xhs-cover-html`：把底图当铺满的 `<img>`，`.stage` 压字。
+3. 移交 `xhs-html`：把底图保存为本地素材，在目标 `.sheet` 中用 `<img>` 铺底，再用 CSS 网格或定位叠字。
    白底图不需要蒙版；如果底图局部有色块导致对比度不够，那一块加半透明白蒙版。
-4. 在 cover-html 那边跑它的 `check_contrast.py` 和 260px 缩略图检验。
+4. 在 `xhs-html` 中运行 `check_contrast.py` 与 `render_xhs.mjs --strict`，再做缩略图检验。
 
 **移交时要交代清楚**：底图路径、文字预留区的位置和大小（用画布百分比说）、accent 的 hex（HTML 那边要用同一个色，否则两层不像一张图）。
 
