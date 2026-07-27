@@ -1,10 +1,10 @@
 # XHS Skills — 小红书全流程 Agent Skills
 
-把小红书运营拆成 8 个环节，每个环节一个 Skill，外加一个总控把它们串起来。
+把小红书运营拆成定位、选题、写作、视觉和复盘等环节，每个环节一个 Skill，外加一个总控把它们串起来。
 
 **不是"一键起号"按钮。** 只做分析和参谋：不自动发布、不抓取批量数据、不刷互动、不做批量起号和矩阵养号。内容永远是你的。
 
-## 9 个 Skill
+## 10 个 Skill
 
 | Skill | 干什么 | 需要 Key |
 |---|---|:---:|
@@ -13,6 +13,7 @@
 | `space-xhs-hotspot` | 热点选题：拉高互动笔记、判趋势、爆款共性提取、跨赛道对比 | ✅ |
 | `space-xhs-title` | 爆款标题：15 种小红书方法批量出候选、评分、合规校验、A/B 建议 | — |
 | `space-xhs-writer` | 笔记正文：7 种笔记类型、标签策略、合规改写、发布前 14 项体检 | — |
+| `space-xhs-cover` | 封面制作：标题提炼、原创风格推荐、主体保真、背景合成、单张或多版测试 | — |
 | `xhs-html` | 图文排版：内容拆成 6 张以上 3:4 单文件 HTML，62 种风格、页数选择、逐页校验 | — |
 | `space-xhs-image` | AI 信息图：用 Codex 内置生图模型制作单图或 6–9 张 3:4 紫绿科技感组图 | — |
 | `space-xhs-account-audit` | 账号体检：八维打分、竞品对标、卡点定位 | 可选 |
@@ -45,24 +46,25 @@ export GUAIKEI_API_TOKEN=...     # https://www.guaikei.com  详情 + 评论 + �
 ## 三条标准工作流
 
 ```
-链 A 从零起号   positioning → hotspot → writer → title → xhs-html / space-xhs-image → 发布
+链 A 从零起号   positioning → hotspot → writer → title → space-xhs-cover + xhs-html / space-xhs-image → 发布
                               ↳ 累计 20-30 篇后回 account-audit 复诊
 
-链 B 日常产出   hotspot → writer → title → xhs-html / space-xhs-image
+链 B 日常产出   hotspot → writer → title → space-xhs-cover + xhs-html / space-xhs-image
 
 链 C 诊断改进   note-analytics 定位卡在漏斗哪一层
                   ├ 曝光就低      → account-audit（标签/定位/权重）
-                  ├ 曝光够 CTR 低 → title + xhs-html / space-xhs-image
+                  ├ 曝光够 CTR 低 → title + space-xhs-cover
                   └ 点击够互动低  → writer（开头留人/价值兑现）
 ```
 
 **链 C 的顺序不能反。** 跳过诊断直接改标题是最常见的浪费 —— 曝光就低的时候，标题不是问题。
 
-## 两个视觉 Skill 怎么选
+## 三个视觉 Skill 怎么选
 
+- **只做首图封面时用 `space-xhs-cover`**：输入主题、标题和可选的人物、产品或背景素材，生成一张 3:4 封面；也可以做 3 或 6 版构图测试。
 - **需要文字精确、可编辑时用 `xhs-html`**：把文章、教程、SOP 或清单拆成 6 张以上 3:4 图文，并输出一个可连续截图的 HTML；支持 62 种设计风格。
 - **需要模型直接生成位图时用 `space-xhs-image`**：输入内容后生成单图或 6–9 张信息图，固定采用白底、紫蓝与青柠绿强调、圆角卡片和线性科技图标。
-- `space-xhs-image` 会逐页调用内置生图模型并复核中文；要求文字 100% 可控时仍优先选择 `xhs-html`。
+- `space-xhs-cover` 与 `space-xhs-image` 都会调用内置生图模型并复核中文；要求文字 100% 可控时仍优先选择 `xhs-html`。
 
 ## 设计上的几个取舍
 
@@ -78,6 +80,7 @@ export GUAIKEI_API_TOKEN=...     # https://www.guaikei.com  详情 + 评论 + �
 
 - `hotspot` 的 `compare_sets.py` 高频词统计用的是 n-gram 滑窗（无中文分词依赖），会有切片噪音；形态分类在部分赛道命中率低。
 - `space-xhs-image` 依赖 runtime 暴露内置 `image_gen`；不支持该工具的 runtime 无法直接生图。
+- `space-xhs-cover` 同样依赖 runtime 暴露内置 `image_gen`；无内置生图工具时只能生成封面方案与提示词。
 - 生图模型的中文仍需逐页人工复核；连续修正后仍有错字时，改用 `xhs-html` 输出文字确定版。
 - 所有第三方数据服务均为付费，按量计费，与本仓库无关联。
 

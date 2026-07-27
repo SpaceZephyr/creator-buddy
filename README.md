@@ -15,9 +15,9 @@
   公众号 / 小红书 / B站 / 知乎：<strong>空格的键盘</strong> ｜ <a href="mailto:wzfh520@gmail.com">wzfh520@gmail.com</a>
 </p>
 
-Creator Buddy 是一套给内容创作者、运营、增长和自媒体作者用的运营情报 Skill 集合。
+Creator Buddy 是一套给内容创作者、运营、增长和自媒体作者用的运营情报与小红书内容生产 Skill 集合。
 
-它帮你从小红书、公众号、B站等内容平台里搜索热点、挖爆款、看评论、查竞品、找选题，把“今天写什么”从玄学变成一套可复用的数据工作流。
+它既能从小红书、公众号、B站等内容平台里搜索热点、挖爆款、看评论、查竞品、找选题，也能把选题继续做成标题、正文、封面和图文。
 
 基于开放的 Agent Skills 协议，可在 Claude Code、Codex、Cursor、OpenClaw、Hermes Agent、CodeBuddy、Workbuddy、Gemini CLI、OpenCode 等兼容 runtime 中运行。
 
@@ -107,13 +107,13 @@ Creator Buddy 基于开放的 Agent Skills 协议，可在任何 skills-compatib
 打开你正在用的 agent（Claude Code、Codex、Cursor、OpenClaw、Hermes、CodeBuddy、Workbuddy、Gemini CLI、OpenCode 等），告诉它：
 
 ```text
-帮我安装这个 skill：https://github.com/zephyrwang6/creator-buddy
+帮我安装这个 skill：https://github.com/SpaceZephyr/creator-buddy
 ```
 
 或者用通用 CLI 安装器（vercel-labs/skills，支持多 runtime）：
 
 ```bash
-npx skills add zephyrwang6/creator-buddy
+npx skills add SpaceZephyr/creator-buddy
 ```
 
 它会自动识别你当前的 runtime 并把 skill 放到正确目录。需要指定时可加 runtime 参数，例如 `-a codex` / `-a claude-code` / `-a cursor`。
@@ -123,7 +123,7 @@ npx skills add zephyrwang6/creator-buddy
 克隆仓库后，把需要的 skill 目录复制到你的 runtime skills 目录：
 
 ```bash
-git clone https://github.com/zephyrwang6/creator-buddy.git
+git clone https://github.com/SpaceZephyr/creator-buddy.git
 ```
 
 仓库结构：
@@ -135,6 +135,10 @@ skills/
   gzh-explosive-content-detector/
   baokuan-article-analysis/
   baokuan-title-generator/
+xhs-Skills/
+  space-xhs-cover/
+  space-xhs-image/
+  xhs-html/
 ```
 
 每个子目录都是一个独立 Skill。
@@ -232,6 +236,7 @@ python3 skills/baokuan-article-analysis/scripts/daily_sector_trends.py \
 | `gzh-explosive-content-detector` | 公众号关键词爆款搜索 | HTML 报告 |
 | `baokuan-article-analysis` | 公众号赛道级爆款聚合、去重、排名、风格分析 | HTML 报告 + `data.json` |
 | `baokuan-title-generator` | 从内容生成爆款标题：16 种方法批量出候选、逐条评分标风险、按用途分角色推荐、给 A/B 建议 | 标题矩阵 + Top 5 推荐 |
+| `space-xhs-cover` | 从标题、人物或产品素材生成 3:4 小红书封面，支持单张和多版测试 | 1080×1440 PNG + 提示词记录 |
 
 > 前四个 Skill 负责「把平台上的真实数据拉回来」，`baokuan-title-generator` 负责下游的「拆完爆款之后，自己这篇该起什么标题」。方法论提炼自 100 篇科技类 10 万+ 标题样本。
 

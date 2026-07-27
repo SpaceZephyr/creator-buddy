@@ -1,0 +1,4 @@
+interface:
+  display_name: "小红书封面制作"
+  short_description: "输入标题与素材，用 Codex 内置生图模型制作清晰醒目的小红书封面"
+  default_prompt: "使用 $space-xhs-cover 根据我的标题和素材制作一张 3:4 小红书封面。"
