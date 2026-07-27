@@ -38,16 +38,18 @@
 要求模型使用现代中文无衬线字形，类似粗体系统黑体；不要手写体、书法体或衬线体。
 
 - 顶部标签：小号粗体，放在细边框胶囊内。
-- 主标题：页面最大元素，黑色粗体；1–2 个关键词可用紫蓝渐变或青柠绿。
+- 封面主标题：页面最大元素，黑色粗体；1–2 个关键词可用紫蓝渐变或青柠绿。
+- 内页主标题：使用中等尺寸，约为封面标题的 55%–68%，不压缩正文区域。
 - 副标题：中等字重，墨黑或深灰，最多两行。
 - 模块标题：粗体，明显大于模块正文。
-- 模块正文：短句，不写长段落。
+- 模块正文：12–28 字的完整说明句，写清对象、动作、结果或检查要求。
 - 数字编号：白字紫色圆点，或紫色数字配细连接线。
 
 视觉占比：
 
-- 主标题约占页面高度 14%–23%。
-- 主内容区约占 48%–66%。
+- 封面标题约占页面高度 14%–23%。
+- 内页标题区约占页面高度 8%–14%。
+- 内页主内容区约占 58%–72%。
 - 页脚结论或验收区约占 8%–16%。
 
 ## 4. 组件
@@ -79,21 +81,23 @@
 
 ## 5. 信息密度
 
-目标是“丰富但可扫读”：
+目标是“内容充足，而且可扫读”：
 
 - 一页一个中心结论。
-- 一页 3–6 个信息模块。
-- 一个模块优先使用 1 个图标 + 1 个短标题 + 0–1 行说明。
-- 文字占画面不超过约 35%。
-- 卡片覆盖画面不超过约 68%，留出背景呼吸区。
+- 内页使用 4–6 个信息模块。
+- 一个模块使用 1 个图标 + 1 个短标题 + 1 个完整说明句。
+- 内页文字占画面约 38%–48%，正文信息明显多于装饰。
+- 卡片覆盖画面约 65%–76%，卡片之间仍保留清楚间距。
+- 内页建议 120–180 个汉字；模板页最多 220 字。
 - 信息多时增加页面，不把字号压小。
+- 信息少时回到原文补充字段、步骤、输出和验收，不用大图标填空。
 
 ## 6. Style Lock
 
 系列图每一页都要逐字复用下面这段，只替换后面的页面内容和构图：
 
 ```text
-Create an original premium AI-product infographic for Xiaohongshu in a 3:4 portrait canvas. Use a clean white to very pale lavender background with generous outer margins and breathable negative space. The main headline uses bold modern simplified-Chinese sans-serif typography in near-black, with only one or two key phrases highlighted by a controlled violet-to-electric-blue gradient or vivid lime green. Organize information in large white rounded cards with subtle lavender-gray shadows, precise spacing, and clear visual hierarchy. Use a coherent set of thin rounded line icons related to software, workflow, documents, checklists, targets, permissions, data, and AI. Add only a few low-contrast schematic decorations near the edges. The result should feel polished, intelligent, practical, and easy to scan at phone size—information-rich but never crowded. Keep icon line weight, corner radius, shadow softness, margins, and accent colors consistent across the series.
+Create an original premium AI-product infographic for Xiaohongshu in a 3:4 portrait canvas. Use a clean white to very pale lavender background with generous outer margins and breathable negative space. The cover may use a large bold headline; every inner page must use a clearly smaller medium-size headline occupying no more than 14% of the canvas height, leaving most space for source-grounded body content. Use modern simplified-Chinese sans-serif typography in near-black, with only one or two key phrases highlighted by a controlled violet-to-electric-blue gradient or vivid lime green. Organize information in large white rounded cards with subtle lavender-gray shadows, precise spacing, and clear visual hierarchy. Each inner-page module contains a short heading plus one complete explanatory sentence, not a label alone. Use coherent thin rounded line icons related to software, workflow, documents, checklists, targets, permissions, data, and AI. Keep decorations sparse. The result should feel polished, practical, content-rich, and easy to scan at phone size. Keep icon line weight, corner radius, shadow softness, margins, and accent colors consistent across the series.
 ```
 
 固定负向约束：
