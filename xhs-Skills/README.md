@@ -14,7 +14,7 @@
 | `space-xhs-title` | 爆款标题：15 种小红书方法批量出候选、评分、合规校验、A/B 建议 | — |
 | `space-xhs-writer` | 笔记正文：7 种笔记类型、标签策略、合规改写、发布前 14 项体检 | — |
 | `xhs-html` | 图文排版：内容拆成 6 张以上 3:4 单文件 HTML，62 种风格、页数选择、逐页校验 | — |
-| `space-xhs-cover-image` | 封面与内页（**画面型**）：AI 生图，白底简约手绘 + Notion 风 | ✅ |
+| `space-xhs-image` | AI 信息图：用 Codex 内置生图模型制作单图或 6–9 张 3:4 紫绿科技感组图 | — |
 | `space-xhs-account-audit` | 账号体检：八维打分、竞品对标、卡点定位 | 可选 |
 | `space-xhs-note-analytics` | 笔记复盘：六层漏斗归因、多篇横向找规律 | — |
 
@@ -30,7 +30,7 @@ cp -r creator-buddy/xhs-Skills/xhs-html ~/.claude/skills/
 
 ## 配置（可选）
 
-5 个 Skill 零配置可用。需要真实平台数据时配置任一：
+除平台数据查询外，其余 Skill 不需要第三方 API Key。需要真实平台数据时配置任一：
 
 ```bash
 export REDFOX_API_KEY=...        # https://redfox.hk        近 30 天爆款库，带三维评分
@@ -40,19 +40,19 @@ export GUAIKEI_API_TOKEN=...     # https://www.guaikei.com  详情 + 评论 + �
 
 `hotspot` 和 `account-audit` 会**运行时探测并逐级降级**，三个都没有时走公开搜索兜底 —— 仍能跑完流程，只是拿不到互动数，且会明确标注"未经数据验证"，不靠猜补齐。
 
-生图版封面另需后端，跑 `bash space-xhs-cover-image/scripts/detect_backend.sh` 一键探测。
+`space-xhs-image` 直接调用 Codex runtime 提供的内置 `image_gen`，不需要 `GOOGLE_API_KEY`、`OPENAI_API_KEY` 或其他外部生图后端。
 
 ## 三条标准工作流
 
 ```
-链 A 从零起号   positioning → hotspot → writer → title → xhs-html → 发布
+链 A 从零起号   positioning → hotspot → writer → title → xhs-html / space-xhs-image → 发布
                               ↳ 累计 20-30 篇后回 account-audit 复诊
 
-链 B 日常产出   hotspot → writer → title → xhs-html
+链 B 日常产出   hotspot → writer → title → xhs-html / space-xhs-image
 
 链 C 诊断改进   note-analytics 定位卡在漏斗哪一层
                   ├ 曝光就低      → account-audit（标签/定位/权重）
-                  ├ 曝光够 CTR 低 → title + xhs-html
+                  ├ 曝光够 CTR 低 → title + xhs-html / space-xhs-image
                   └ 点击够互动低  → writer（开头留人/价值兑现）
 ```
 
@@ -60,9 +60,9 @@ export GUAIKEI_API_TOKEN=...     # https://www.guaikei.com  详情 + 评论 + �
 
 ## 两个视觉 Skill 怎么选
 
-- **默认 `xhs-html`**：把文章、教程、SOP 或清单拆成 6 张以上 3:4 图文，并输出一个可连续截图的 HTML；文字、字号、对比度和安全区都可精确控制。
-- **需要插画/手绘/氛围时用 `cover-image`**。
-- **最强是两个一起用**：`cover-image` 出无字底图（prompt 预留文字区）→ `xhs-html` 负责中文排版和多页结构。AI 画中文经常缺笔画串行，别让它画标题。
+- **需要文字精确、可编辑时用 `xhs-html`**：把文章、教程、SOP 或清单拆成 6 张以上 3:4 图文，并输出一个可连续截图的 HTML；支持 62 种设计风格。
+- **需要模型直接生成位图时用 `space-xhs-image`**：输入内容后生成单图或 6–9 张信息图，固定采用白底、紫蓝与青柠绿强调、圆角卡片和线性科技图标。
+- `space-xhs-image` 会逐页调用内置生图模型并复核中文；要求文字 100% 可控时仍优先选择 `xhs-html`。
 
 ## 设计上的几个取舍
 
@@ -77,7 +77,8 @@ export GUAIKEI_API_TOKEN=...     # https://www.guaikei.com  详情 + 评论 + �
 ## 已知限制
 
 - `hotspot` 的 `compare_sets.py` 高频词统计用的是 n-gram 滑窗（无中文分词依赖），会有切片噪音；形态分类在部分赛道命中率低。
-- `cover-image` 的 codex 路线未经实测（作者机器未安装），文档里**故意没有给具体命令**，只写了"先探测再确认参数"。
+- `space-xhs-image` 依赖 runtime 暴露内置 `image_gen`；不支持该工具的 runtime 无法直接生图。
+- 生图模型的中文仍需逐页人工复核；连续修正后仍有错字时，改用 `xhs-html` 输出文字确定版。
 - 所有第三方数据服务均为付费，按量计费，与本仓库无关联。
 
 ## 许可与免责

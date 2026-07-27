@@ -1,0 +1,4 @@
+interface:
+  display_name: "小红书 AI 信息图"
+  short_description: "用 Codex 内置生图模型制作 3:4 科技感小红书信息图"
+  default_prompt: "使用 $space-xhs-image 根据我的内容生成一组 3:4 小红书信息图。"
