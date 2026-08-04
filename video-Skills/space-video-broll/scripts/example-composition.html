@@ -1,0 +1,221 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:720px;height:896px;overflow:hidden;font-family:"PingFang SC","Heiti SC",sans-serif}
+  #stage{width:720px;height:896px;position:relative;
+    background:radial-gradient(120% 90% at 50% 12%,#fff3f4 0%,#ffe3e8 50%,#ffd0dd 100%)}
+  .scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .red{color:#ff2442}.ink{color:#22252a}.mut{color:#7a7370}
+  /* S1 */
+  #s1 .num{font-size:300px;font-weight:900;color:#ff2442;line-height:1;letter-spacing:-8px;text-shadow:0 20px 60px rgba(255,36,66,.28)}
+  #s1 .sub{font-size:56px;font-weight:800;color:#22252a;margin-top:6px}
+  #s1 .tag{font-size:30px;font-weight:700;color:#ff2442;background:#fff;padding:12px 30px;border-radius:100px;margin-top:32px;box-shadow:0 12px 34px rgba(255,36,66,.18)}
+  .dot{position:absolute;border-radius:50%;background:#ff2442;opacity:.10}
+  /* S2 convergence */
+  #s2 .chip{position:absolute;background:#fff;color:#22252a;font-size:26px;font-weight:700;padding:12px 22px;border-radius:100px;box-shadow:0 8px 22px rgba(255,36,66,.12)}
+  #s2 .pain{font-size:64px;font-weight:900;color:#22252a;z-index:5}
+  #s2 .pain b{color:#ff2442}
+  /* S3 hub */
+  #s3 svg{position:absolute;inset:0}
+  #s3 .hub{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:150px;height:150px;border-radius:34px;background:linear-gradient(135deg,#ff2442,#ff5a6e);display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;font-weight:900;box-shadow:0 18px 44px rgba(255,36,66,.35);z-index:4;text-align:center;line-height:1.15}
+  #s3 .cap{position:absolute;bottom:150px;font-size:40px;font-weight:800;color:#22252a}
+  #s3 .cap b{color:#ff2442}
+  .spoke{position:absolute;width:74px;height:74px;border-radius:20px;background:#fff;box-shadow:0 8px 20px rgba(255,36,66,.14);z-index:3}
+  /* S4 grid */
+  #s4{padding:70px 44px;justify-content:flex-start}
+  #s4 h2{font-size:44px;font-weight:900;color:#22252a;margin:14px 0 30px}
+  #s4 h2 b{color:#ff2442}
+  #s4 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%}
+  #s4 .card{background:#fff;border-radius:22px;padding:22px 10px;display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 10px 26px rgba(255,36,66,.12)}
+  #s4 .card .t{font-size:26px;font-weight:800;color:#22252a}
+  #s4 .ic{width:46px;height:46px}
+  /* S5 pipeline */
+  #s5{padding:70px 0}
+  #s5 h2{font-size:44px;font-weight:900;color:#22252a}
+  #s5 h2 b{color:#ff2442}
+  #s5 .sub{font-size:24px;color:#7a7370;margin:8px 0 30px}
+  #s5 .flow{position:relative;width:460px;flex:1}
+  #s5 .lbg{position:absolute;left:52px;top:8px;width:6px;height:100%;background:#ffd0d6;border-radius:6px}
+  #s5 .line{position:absolute;left:52px;top:8px;width:6px;background:#ff2442;border-radius:6px}
+  #s5 .step{position:relative;display:flex;align-items:center;gap:22px;height:16.6%}
+  #s5 .node{width:52px;height:52px;border-radius:50%;background:#fff;border:5px solid #ffd0d6;margin-left:27px;z-index:2}
+  #s5 .lab{font-size:34px;font-weight:800;color:#c3b7b3}
+  /* S6 CTA */
+  #s6 .l1{font-size:46px;font-weight:900;color:#22252a;text-align:center;line-height:1.3}
+  #s6 .l1 b{color:#ff2442}
+  #s6 .btn{position:relative;margin-top:40px;font-size:34px;font-weight:800;color:#fff;padding:22px 56px;border-radius:100px;overflow:hidden;background:#ffd0d6;box-shadow:0 14px 40px rgba(255,36,66,.28)}
+  #s6 .fill{position:absolute;inset:0;background:linear-gradient(100deg,#ff2442,#ff5a6e);transform-origin:left}
+  #s6 .btxt{position:relative;z-index:2}
+</style></head><body>
+<div id="stage">
+
+  <!-- S1 opener -->
+  <div class="scene" id="s1">
+    <div class="dot" style="width:180px;height:180px;left:-40px;top:80px"></div>
+    <div class="dot" style="width:120px;height:120px;right:-20px;top:660px"></div>
+    <div class="num">10</div><div class="sub">个 Skill</div>
+    <div class="tag">搞定小红书起号</div>
+  </div>
+
+  <!-- S2 scattered → converge -->
+  <div class="scene" id="s2">
+    <div class="pain"><b>工具</b>太散了</div>
+    <div class="chip" data-hx="-240" data-hy="-260">标题</div>
+    <div class="chip" data-hx="230" data-hy="-210">选题</div>
+    <div class="chip" data-hx="-270" data-hy="120">正文</div>
+    <div class="chip" data-hx="250" data-hy="180">配图</div>
+    <div class="chip" data-hx="-160" data-hy="290">定位</div>
+    <div class="chip" data-hx="180" data-hy="-320">复盘</div>
+    <div class="chip" data-hx="20" data-hy="330">封面</div>
+  </div>
+
+  <!-- S3 hub + spokes -->
+  <div class="scene" id="s3">
+    <svg id="s3svg" width="720" height="896"></svg>
+    <div class="hub">路由<br>总控</div>
+    <div class="cap"><b>1 个总控</b>，帮你选</div>
+  </div>
+
+  <!-- S4 nine skills -->
+  <div class="scene" id="s4">
+    <h2>再加 <b>9</b> 个功能 Skill</h2>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- S5 pipeline -->
+  <div class="scene" id="s5">
+    <h2>还能<b>串起来</b></h2><div class="sub">从定位到发布，一条龙</div>
+    <div class="flow">
+      <div class="lbg"></div><div class="line" id="line" style="height:0%"></div>
+      <div class="step"><div class="node"></div><div class="lab">定位</div></div>
+      <div class="step"><div class="node"></div><div class="lab">选题</div></div>
+      <div class="step"><div class="node"></div><div class="lab">标题</div></div>
+      <div class="step"><div class="node"></div><div class="lab">正文</div></div>
+      <div class="step"><div class="node"></div><div class="lab">封面</div></div>
+      <div class="step"><div class="node"></div><div class="lab">发布</div></div>
+    </div>
+  </div>
+
+  <!-- S6 CTA -->
+  <div class="scene" id="s6">
+    <div class="l1">复制仓库地址<br>发给你的 <b>Agent</b></div>
+    <div class="btn"><div class="fill" id="fill"></div><div class="btxt">一键安装 10 个 Skill</div></div>
+  </div>
+
+</div>
+<script src="timeline.js"></script>
+<script>
+  // 9 个 SVG 线性图标（无 emoji），stroke 用红色
+  const R='#ff2442';
+  const ICONS={
+    定位:`<circle cx="23" cy="23" r="16"/><circle cx="23" cy="23" r="8"/><circle cx="23" cy="23" r="2" fill="${R}"/>`,
+    选题:`<circle cx="19" cy="19" r="13"/><line x1="29" y1="29" x2="39" y2="39"/>`,
+    标题:`<path d="M10 34 L30 14 L36 20 L16 40 L8 42 Z"/><line x1="26" y1="18" x2="32" y2="24"/>`,
+    正文:`<rect x="11" y="8" width="24" height="30" rx="3"/><line x1="16" y1="17" x2="30" y2="17"/><line x1="16" y1="23" x2="30" y2="23"/><line x1="16" y1="29" x2="25" y2="29"/>`,
+    视觉:`<circle cx="23" cy="23" r="15"/><circle cx="18" cy="18" r="2.5" fill="${R}"/><circle cx="29" cy="19" r="2.5" fill="${R}"/><path d="M23 38 a12 12 0 0 0 12 -12"/>`,
+    图文:`<rect x="9" y="11" width="28" height="24" rx="3"/><circle cx="17" cy="19" r="3"/><path d="M12 33 L21 24 L28 30 L33 26 L34 33 Z" fill="${R}" stroke="none"/>`,
+    体检:`<path d="M8 23 h9 l3 -8 l5 16 l3 -8 h9"/>`,
+    复盘:`<line x1="10" y1="38" x2="38" y2="38"/><rect x="13" y="24" width="6" height="14"/><rect x="24" y="16" width="6" height="22"/><rect x="35" y="28" width="0.1" height="10"/>`,
+    发布:`<path d="M23 8 L23 34"/><path d="M13 18 L23 8 L33 18"/><line x1="12" y1="40" x2="34" y2="40"/>`
+  };
+  const NAMES=['定位','选题','标题','正文','视觉','图文','体检','复盘','发布'];
+  const grid=document.getElementById('grid');
+  NAMES.forEach(n=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<svg class="ic" viewBox="0 0 46 46" fill="none" stroke="${R}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]}</svg><div class="t">${n}</div>`;
+    grid.appendChild(d);
+  });
+
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const T=Timeline();
+
+  // S1 0-4.5 —— 数字回弹 + 副标题 + 标签
+  T.scene('#s1',0,4.5,(lt)=>{
+    const num=$('#s1 .num'),sub=$('#s1 .sub'),tag=$('#s1 .tag'),dots=$$('#s1 .dot');
+    const p=eob(seg(lt,.1,.7));num.style.transform=`scale(${.3+.7*p})`;num.style.opacity=clamp(seg(lt,.1,.3));
+    const q=eoc(seg(lt,.7,.5));sub.style.opacity=q;sub.style.transform=`translateY(${20*(1-q)}px)`;
+    const r=eoc(seg(lt,1.1,.5));tag.style.opacity=r;tag.style.transform=`translateY(${24*(1-r)}px)`;
+    dots.forEach((d,i)=>d.style.transform=`translateY(${Math.sin(lt*1.2+i)*14}px)`);
+    const out=eic(seg(lt,4.0,.5));$('#s1').style.opacity=1-out; // 淡出交接
+  });
+
+  // S2 4.5-10 —— 散乱 chip 聚合到中心，"太散了"闪现后消散
+  T.scene('#s2',4.5,5.5,(lt)=>{
+    const chips=$$('#s2 .chip'),pain=$('#s2 .pain');
+    const conv=eio(seg(lt,1.6,2.2));            // 0 散 → 1 聚
+    chips.forEach(c=>{
+      const hx=+c.dataset.hx,hy=+c.dataset.hy;
+      const x=lerp(hx,0,conv), y=lerp(hy,0,conv);
+      const s=lerp(1,.2,conv), o=lerp(1,0,clamp((conv-.6)/.4));
+      c.style.transform=`translate(${x}px,${y}px) scale(${s})`;c.style.opacity=clamp(seg(lt,.1,.4))*(o);
+    });
+    const pin=eob(seg(lt,1.7,.5)),pout=eic(seg(lt,3.4,.6));
+    pain.style.opacity=clamp(pin-pout);pain.style.transform=`scale(${.7+.3*pin})`;
+    $('#s2').style.opacity=1-eic(seg(lt,5.0,.5));
+  });
+
+  // S3 10-15.5 —— 中心 hub 出现，向 9 个 spoke 画连线
+  const cx=360,cy=394,Rr=250;
+  const spokes=[];
+  const s3svg=$('#s3svg');
+  for(let i=0;i<9;i++){
+    const a=(-90+i*40)*Math.PI/180;
+    const x=cx+Math.cos(a)*Rr,y=cy+Math.sin(a)*Rr;
+    const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('x1',cx);ln.setAttribute('y1',cy);ln.setAttribute('x2',x);ln.setAttribute('y2',y);
+    ln.setAttribute('stroke','#ff2442');ln.setAttribute('stroke-width','3');ln.setAttribute('opacity','.5');
+    s3svg.appendChild(ln);
+    const sp=document.createElement('div');sp.className='spoke';sp.style.left=(x-37)+'px';sp.style.top=(y-37)+'px';
+    $('#s3').appendChild(sp);spokes.push({ln,sp,x,y});
+  }
+  T.scene('#s3',10,5.5,(lt)=>{
+    const hub=$('#s3 .hub'),cap=$('#s3 .cap');
+    const hp=eob(seg(lt,.1,.6));hub.style.transform=`translate(-50%,-50%) scale(${.4+.6*hp})`;hub.style.opacity=clamp(seg(lt,.1,.3));
+    spokes.forEach((s,i)=>{
+      const p=eoc(seg(lt,.7+i*.28,.5));   // 连线依次生长
+      s.ln.setAttribute('x2',lerp(cx,s.x,p));s.ln.setAttribute('y2',lerp(cy,s.y,p));
+      s.ln.setAttribute('opacity',.5*clamp(p*2));
+      const q=eob(seg(lt,.9+i*.28,.45));s.sp.style.transform=`scale(${clamp(q)})`;s.sp.style.opacity=clamp(q);
+    });
+    const c=eoc(seg(lt,1.0,.6));cap.style.opacity=c;cap.style.transform=`translateY(${18*(1-c)}px)`;
+    $('#s3').style.opacity=1-eic(seg(lt,5.0,.5));
+  });
+
+  // S4 15.5-25 —— 9 卡片错峰缩放入场 + 图标
+  T.scene('#s4',15.5,9.5,(lt)=>{
+    const h=$('#s4 h2'),cards=$$('#s4 .card');
+    const hp=eoc(seg(lt,.1,.5));h.style.opacity=hp;h.style.transform=`translateY(${16*(1-hp)}px)`;
+    cards.forEach((c,i)=>{
+      const p=eob(seg(lt,.6+i*.28,.5));
+      c.style.opacity=clamp(seg(lt,.6+i*.28,.3));
+      c.style.transform=`translateY(${30*(1-clamp(p))}px) scale(${.85+.15*clamp(p)})`;
+    });
+    $('#s4').style.opacity=1-eic(seg(lt,9.0,.5));
+  });
+
+  // S5 25-31 —— 连线生长 + 节点依次点亮
+  T.scene('#s5',25,6,(lt)=>{
+    const h=$('#s5 h2'),sub=$('#s5 .sub'),line=$('#line'),nodes=$$('#s5 .node'),labs=$$('#s5 .lab');
+    [h,sub].forEach((el,i)=>{const p=eoc(seg(lt,.1+i*.12,.5));el.style.opacity=p;el.style.transform=`translateY(${12*(1-p)}px)`;});
+    const lp=eoc(seg(lt,.5,4.2));line.style.height=(lp*100)+'%';
+    nodes.forEach((nd,i)=>{
+      const on=eoc(seg(lt,.7+i*.62,.4));const hot=on>.5;
+      nd.style.borderColor=hot?'#ff2442':'#ffd0d6';nd.style.background=hot?'#ff2442':'#fff';
+      nd.style.transform=`scale(${1+.2*on*(1-Math.abs(seg(lt,.7+i*.62,.4)*2-1))})`;
+      labs[i].style.color=hot?'#22252a':'#c3b7b3';
+    });
+    $('#s5').style.opacity=1-eic(seg(lt,5.5,.5));
+  });
+
+  // S6 31-35 —— CTA 文案 + 按钮填充扫过
+  T.scene('#s6',31,4,(lt)=>{
+    const l1=$('#s6 .l1'),btn=$('#s6 .btn'),fill=$('#fill');
+    const p=eoc(seg(lt,.2,.6));l1.style.opacity=p;l1.style.transform=`translateY(${18*(1-p)}px)`;
+    const bp=eob(seg(lt,.9,.5));btn.style.opacity=clamp(seg(lt,.9,.3));btn.style.transform=`scale(${.8+.2*clamp(bp)})`;
+    const f=eio(seg(lt,1.5,.8));fill.style.transform=`scaleX(${f})`;
+    const pulse=1+.03*Math.sin(clamp(seg(lt,2.4,1.6))*Math.PI*4);btn.style.transform=`scale(${(.8+.2*clamp(bp))*pulse})`;
+  });
+
+  T.build();
+  window.seek=T.seek;
+  window.seek(0);
+</script></body></html>
