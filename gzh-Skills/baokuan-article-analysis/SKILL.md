@@ -22,7 +22,7 @@ Run with the default sectors:
 
 ```bash
 python3 ~/.codex/skills/baokuan-article-analysis/scripts/daily_sector_trends.py \
-  --output-dir /Users/ugreen/Documents/obsidian/baokuan-article-analysis
+  --output-dir ./output/baokuan-article-analysis
 ```
 
 Run custom sectors:
@@ -32,7 +32,7 @@ python3 ~/.codex/skills/baokuan-article-analysis/scripts/daily_sector_trends.py 
   --sector 'AI Agent=AI Agent,智能体,Agent框架' \
   --sector 'Skill=skill,Skills,AI Skill' \
   --sector 'Claude Code=Claude Code,Codex,AI编程' \
-  --output-dir /Users/ugreen/Documents/obsidian/baokuan-article-analysis
+  --output-dir ./output/baokuan-article-analysis
 ```
 
 Run with a JSON config:
@@ -41,7 +41,7 @@ Run with a JSON config:
 python3 ~/.codex/skills/baokuan-article-analysis/scripts/daily_sector_trends.py \
   --sector-config ~/.codex/skills/baokuan-article-analysis/references/default-sectors.json \
   --days 7 \
-  --output-dir /Users/ugreen/Documents/obsidian/baokuan-article-analysis
+  --output-dir ./output/baokuan-article-analysis
 ```
 
 ## Workflow

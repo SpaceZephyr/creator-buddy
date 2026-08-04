@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{TITLE}}</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #171717;
+        --muted: #6f6a62;
+        --line: #e7e1d7;
+        --soft: #fbfaf7;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        background: #f4efe7;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      }
+
+      .shell {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 18px 0 42px;
+      }
+
+      .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(14px);
+      }
+
+      .toolbar h1 {
+        margin: 0;
+        font-size: 22px;
+        line-height: 1.3;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      button {
+        min-height: 40px;
+        border: 1px solid #171717;
+        border-radius: 8px;
+        padding: 0 16px;
+        background: #171717;
+        color: #fff;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .status {
+        margin: 12px 0;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fffdf8;
+        color: #5f4a2d;
+        font-size: 14px;
+      }
+
+      .frame {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        overflow: hidden;
+      }
+
+      #article {
+        padding: 20px 0;
+        background: var(--soft);
+      }
+
+      @media (max-width: 720px) {
+        .shell {
+          width: min(100% - 20px, 1120px);
+          padding-top: 10px;
+        }
+
+        .toolbar {
+          position: static;
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .actions {
+          width: 100%;
+        }
+
+        button {
+          flex: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="toolbar">
+        <h1>{{TITLE}}</h1>
+        <section class="actions">
+          <button id="copyHtmlButton" type="button">复制 HTML</button>
+        </section>
+      </section>
+      <p class="status" id="copyStatus">点击复制后，粘贴到公众号草稿箱正文区域。</p>
+      <section class="frame">
+        <div id="article">{{ARTICLE_HTML}}</div>
+      </section>
+    </main>
+    <script>
+      const article = document.querySelector("#article");
+      const statusNode = document.querySelector("#copyStatus");
+      document.querySelector("#copyHtmlButton").addEventListener("click", async () => {
+        const html = article.innerHTML;
+        const text = article.innerText;
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              "text/html": new Blob([html], { type: "text/html" }),
+              "text/plain": new Blob([text], { type: "text/plain" }),
+            }),
+          ]);
+          statusNode.textContent = "已复制 HTML，可以粘贴到公众号正文区域。";
+        } catch {
+          const range = document.createRange();
+          range.selectNode(article);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          document.execCommand("copy");
+          selection.removeAllRanges();
+          statusNode.textContent = "已用兼容模式复制当前预览内容。";
+        }
+      });
+    </script>
+  </body>
+</html>

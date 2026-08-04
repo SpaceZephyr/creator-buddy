@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI 图表绘制"
+  short_description: "使用 GPT-image-2 生成美观的图表图片"
+  default_prompt: "使用 $space-chart-image 为我绘制一个图表"

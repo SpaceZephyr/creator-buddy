@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文本逻辑关系图</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== 主题变量（融合 Cursor/Claude/Airtable/Webflow 品牌风格） ===== */
+    :root,
+    [data-theme="dark"] {
+      --bg-page: #141413;
+      --bg-card: #1a1a18;
+      --bg-card-border: rgba(38, 37, 30, 0.25);
+      --bg-label: rgba(38, 37, 30, 0.15);
+      --bg-node: #1e1e1c;
+      --bg-node-end: #282825;
+      --node-stroke: #7a6e5e;
+      --node-stroke-accent: #c96442;
+      --text-primary: #faf9f5;
+      --text-secondary: #b0aea5;
+      --text-tag: #c96442;
+      --line-stroke: rgba(38, 37, 30, 0.35);
+      --arrow-fill: #8a8377;
+      --shadow-color: rgba(0,0,0,0.14);
+      --tag-bg: rgba(201, 100, 66, 0.12);
+      --tag-border: rgba(201, 100, 66, 0.3);
+      --toggle-bg: rgba(20, 20, 19, 0.9);
+      --toggle-border: rgba(38, 37, 30, 0.3);
+      --toggle-icon: #b0aea5;
+      --overview-bg: rgba(201, 100, 66, 0.06);
+      --overview-border: rgba(201, 100, 66, 0.15);
+    }
+    [data-theme="light"] {
+      --bg-page: #f5f4ed;
+      --bg-card: #faf9f5;
+      --bg-card-border: #e0ddd4;
+      --bg-label: #f0eee6;
+      --bg-node: #ebe9e2;
+      --bg-node-end: #e0ddd4;
+      --node-stroke: #8a7e6e;
+      --node-stroke-accent: #c96442;
+      --text-primary: #141413;
+      --text-secondary: #5e5d59;
+      --text-tag: #c96442;
+      --line-stroke: #c8c5bc;
+      --arrow-fill: #8a8377;
+      --shadow-color: rgba(0,0,0,0.05);
+      --tag-bg: rgba(201, 100, 66, 0.1);
+      --tag-border: rgba(201, 100, 66, 0.25);
+      --toggle-bg: rgba(255,255,255,0.9);
+      --toggle-border: #d8d5cc;
+      --toggle-icon: #5e5d59;
+      --overview-bg: rgba(201, 100, 66, 0.06);
+      --overview-border: rgba(201, 100, 66, 0.15);
+    }
+
+    /* ===== 基础 ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-page);
+      min-height: 100vh;
+      padding: 2rem;
+      color: var(--text-primary);
+      transition: background 0.3s, color 0.3s;
+    }
+    .container { max-width: 960px; margin: 0 auto; }
+
+    /* ===== 页眉 ===== */
+    .header {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .header-left { flex: 1; }
+    .header-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+    .header-dot { width: 10px; height: 10px; background: #c96442; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+    h1 { font-size: 1.3rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; line-height: 1.6; }
+    .subtitle { color: var(--text-secondary); font-size: 0.8rem; margin-left: 1.6rem; letter-spacing: 0.04em; }
+
+    /* ===== 主题切换 ===== */
+    .theme-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 0.5rem;
+      background: var(--toggle-bg); border: 1px solid var(--toggle-border);
+      cursor: pointer; transition: all 0.3s; flex-shrink: 0; margin-left: 1rem;
+    }
+    .theme-toggle:hover { border-color: #c96442; transform: scale(1.05); }
+    .theme-toggle svg { width: 18px; height: 18px; fill: var(--toggle-icon); }
+    .theme-toggle .icon-moon { display: none; }
+    .theme-toggle .icon-sun { display: block; }
+    [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+    [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+    [data-theme="light"] .theme-toggle .icon-sun { display: none; }
+    [data-theme="light"] .theme-toggle .icon-moon { display: block; }
+
+    /* ===== 概览卡片 ===== */
+    .overview {
+      background: var(--overview-bg);
+      border: 1px solid var(--overview-border);
+      border-radius: 0.75rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+    }
+    .overview-item { display: flex; align-items: center; gap: 0.5rem; }
+    .overview-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .overview-dot.blue { background: #c96442; }
+    .overview-dot.cyan { background: #d97757; }
+    .overview-dot.teal { background: #8a7e6e; }
+    .overview-label { color: var(--text-secondary); }
+
+    /* ===== 图表卡片 ===== */
+    .diagram-card {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .diagram-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--bg-card-border);
+    }
+    .label-tag {
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-border);
+      color: var(--text-tag);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .label-title {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    .diagram-body {
+      padding: 1rem;
+      overflow-x: auto;
+    }
+    .diagram-body svg {
+      width: 100%;
+      min-width: 700px;
+      display: block;
+    }
+
+    /* ===== 页脚 ===== */
+    .footer {
+      text-align: center;
+      margin-top: 1rem;
+      color: var(--text-secondary);
+      font-size: 0.7rem;
+      opacity: 0.6;
+    }
+
+    /* ===== SVG 主题适配（融合品牌风格） ===== */
+    [data-theme="dark"] .svg-text-primary { fill: #faf9f5; }
+    [data-theme="dark"] .svg-text-secondary { fill: #b0aea5; }
+    [data-theme="dark"] .svg-mask-bg { fill: #1a1a18; }
+    [data-theme="dark"] .svg-line { stroke: rgba(38, 37, 30, 0.35); }
+    [data-theme="dark"] .svg-arrow { fill: #8a8377; }
+    [data-theme="dark"] .svg-node { fill: #1e1e1c; }
+    [data-theme="dark"] .svg-node-accent { fill: #282825; }
+    [data-theme="dark"] .svg-badge-bg { fill: #7a6e5e; }
+    [data-theme="dark"] .svg-badge-bg-accent { fill: #c96442; }
+    [data-theme="dark"] .svg-badge-text { fill: #faf9f5; }
+
+    [data-theme="light"] .svg-text-primary { fill: #141413; }
+    [data-theme="light"] .svg-text-secondary { fill: #5e5d59; }
+    [data-theme="light"] .svg-mask-bg { fill: #faf9f5; }
+    [data-theme="light"] .svg-line { stroke: #c8c5bc; }
+    [data-theme="light"] .svg-arrow { fill: #8a8377; }
+    [data-theme="light"] .svg-node { fill: #ebe9e2; }
+    [data-theme="light"] .svg-node-accent { fill: #e0ddd4; }
+    [data-theme="light"] .svg-badge-bg { fill: #8a7e6e; }
+    [data-theme="light"] .svg-badge-bg-accent { fill: #c96442; }
+    [data-theme="light"] .svg-badge-text { fill: #faf9f5; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="container">
+    <!-- 页眉 -->
+    <div class="header">
+      <div class="header-left">
+        <div class="header-row">
+          <div class="header-dot"></div>
+          <h1>文本逻辑关系图</h1>
+        </div>
+        <p class="subtitle">【源文本简述：对输入文本的简要概括】</p>
+      </div>
+      <div class="theme-toggle" onclick="toggleTheme()" title="切换主题">
+        <svg class="icon-sun" viewBox="0 0 24 24"><path d="M12 3a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1zm0 15a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1zm9-6a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zM5 12a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm14.07-6.36a1 1 0 0 1 0 1.41l-.7.71a1 1 0 0 1-1.42-1.42l.71-.7a1 1 0 0 1 1.41 0zM7.05 17.66a1 1 0 0 1 0 1.41l-.71.71a1 1 0 1 1-1.41-1.42l.7-.71a1 1 0 0 1 1.42 0zm12.02 0a1 1 0 0 1-1.41 0l-.71-.7a1 1 0 0 1 1.42-1.42l.7.71a1 1 0 0 1 0 1.41zM7.05 6.34a1 1 0 0 1-1.41 0l-.71-.7a1 1 0 0 1 1.42-1.42l.7.71a1 1 0 0 1 0 1.41zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0-2a6 6 0 1 1 0 12 6 6 0 0 1 0-12z"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M12.1 22c-5.5 0-10-4.5-10-10 0-4.8 3.4-8.8 8.1-9.8.4-.1.8.1 1 .5.2.4.1.8-.3 1.1-1.6 1.2-2.5 3.1-2.5 5.2 0 3.6 2.9 6.5 6.5 6.5 1.5 0 2.9-.5 4-1.4.3-.3.7-.3 1.1-.1.3.2.5.6.4 1-1.1 4.7-5.1 8-9.8 8h-.5z"/></svg>
+      </div>
+    </div>
+
+    <!-- 概览 -->
+    <div class="overview">
+      <div class="overview-item">
+        <div class="overview-dot blue"></div>
+        <span class="overview-label">检测到 N 个逻辑段落</span>
+      </div>
+      <div class="overview-item">
+        <div class="overview-dot cyan"></div>
+        <span class="overview-label">识别 M 个核心概念</span>
+      </div>
+      <div class="overview-item">
+        <div class="overview-dot teal"></div>
+        <span class="overview-label">关系类型：递进 / 流程 / 循环 / 层次 / 对比 / 矩阵</span>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         图 1：递进关系示例
+         ============================================================ -->
+    <div class="diagram-card">
+      <div class="diagram-label">
+        <span class="label-tag">递进关系</span>
+        <span class="label-title">第一段：概念渐进发展</span>
+      </div>
+      <div class="diagram-body">
+        <svg class="diagram-svg" viewBox="0 0 800 400">
+          <defs>
+            <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" class="svg-arrow"/>
+            </marker>
+            <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+              <feDropShadow dx="1.5" dy="1.5" stdDeviation="2" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+
+          <!-- 连接线（先绘制，在节点下方） -->
+          <line x1="210" y1="180" x2="268" y2="180" class="svg-line" stroke-width="1" marker-end="url(#arrow)"/>
+          <text x="239" y="172" class="svg-text-secondary" font-size="10" text-anchor="middle">深化</text>
+          <line x1="410" y1="180" x2="468" y2="180" class="svg-line" stroke-width="1" marker-end="url(#arrow)"/>
+          <text x="439" y="172" class="svg-text-secondary" font-size="10" text-anchor="middle">扩展</text>
+          <line x1="610" y1="180" x2="668" y2="180" class="svg-line" stroke-width="1" marker-end="url(#arrow)"/>
+          <text x="639" y="172" class="svg-text-secondary" font-size="10" text-anchor="middle">升华</text>
+
+          <!-- 节点 1 -->
+          <rect x="60" y="140" width="150" height="80" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <text x="135" y="172" class="svg-text-primary" font-size="14" font-weight="600" text-anchor="middle">基础认知</text>
+          <text x="135" y="195" class="svg-text-secondary" font-size="11" text-anchor="middle">现象观察</text>
+          <circle cx="72" cy="152" r="10" class="svg-badge-bg" opacity="0.8"/>
+          <text x="72" y="156" class="svg-badge-text" font-size="10" font-weight="700" text-anchor="middle">1</text>
+
+          <!-- 节点 2 -->
+          <rect x="270" y="120" width="140" height="100" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <text x="340" y="160" class="svg-text-primary" font-size="14" font-weight="600" text-anchor="middle">深入理解</text>
+          <text x="340" y="183" class="svg-text-secondary" font-size="11" text-anchor="middle">原理分析</text>
+          <circle cx="282" cy="132" r="10" class="svg-badge-bg" opacity="0.8"/>
+          <text x="282" y="136" class="svg-badge-text" font-size="10" font-weight="700" text-anchor="middle">2</text>
+
+          <!-- 节点 3 -->
+          <rect x="470" y="100" width="140" height="120" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <text x="540" y="148" class="svg-text-primary" font-size="14" font-weight="600" text-anchor="middle">系统构建</text>
+          <text x="540" y="171" class="svg-text-secondary" font-size="11" text-anchor="middle">框架搭建</text>
+          <circle cx="482" cy="112" r="10" class="svg-badge-bg" opacity="0.8"/>
+          <text x="482" y="116" class="svg-badge-text" font-size="10" font-weight="700" text-anchor="middle">3</text>
+
+          <!-- 节点 4 -->
+          <rect x="670" y="80" width="100" height="140" rx="8" class="svg-node-accent" stroke="#c96442" stroke-width="2" filter="url(#shadow)"/>
+          <text x="720" y="140" class="svg-text-primary" font-size="14" font-weight="600" text-anchor="middle">创新</text>
+          <text x="720" y="163" class="svg-text-secondary" font-size="11" text-anchor="middle">突破边界</text>
+          <circle cx="682" cy="92" r="10" class="svg-badge-bg-accent" opacity="0.9"/>
+          <text x="682" y="96" class="svg-badge-text" font-size="10" font-weight="700" text-anchor="middle">4</text>
+
+          <!-- 底部标注 -->
+          <text x="400" y="370" class="svg-text-secondary" font-size="10" text-anchor="middle" opacity="0.5">逻辑递进：从基础认知到创新突破的渐进发展过程</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         图 2：流程关系示例
+         ============================================================ -->
+    <div class="diagram-card">
+      <div class="diagram-label">
+        <span class="label-tag">流程关系</span>
+        <span class="label-title">第二段：步骤与阶段</span>
+      </div>
+      <div class="diagram-body">
+        <svg class="diagram-svg" viewBox="0 0 800 350">
+          <defs>
+            <marker id="arrow2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" class="svg-arrow"/>
+            </marker>
+          </defs>
+
+          <!-- 连接线 -->
+          <line x1="195" y1="80" x2="253" y2="80" class="svg-line" stroke-width="1" marker-end="url(#arrow2)"/>
+          <line x1="405" y1="80" x2="463" y2="80" class="svg-line" stroke-width="1" marker-end="url(#arrow2)"/>
+          <path d="M 615 80 L 660 80 Q 680 80 680 100 L 680 200 Q 680 220 660 220 L 615 220" class="svg-line" stroke-width="1" fill="none" marker-end="url(#arrow2)"/>
+          <line x1="405" y1="220" x2="347" y2="220" class="svg-line" stroke-width="1" marker-end="url(#arrow2)"/>
+
+          <!-- 第一行：步骤 1-3 -->
+          <rect x="45" y="45" width="150" height="70" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <circle cx="60" cy="60" r="11" class="svg-badge-bg"/>
+          <text x="60" y="64" class="svg-badge-text" font-size="11" font-weight="700" text-anchor="middle">1</text>
+          <text x="120" y="78" class="svg-text-primary" font-size="13" font-weight="600" text-anchor="middle">需求分析</text>
+          <text x="120" y="98" class="svg-text-secondary" font-size="10" text-anchor="middle">收集与梳理</text>
+
+          <rect x="255" y="45" width="150" height="70" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <circle cx="270" cy="60" r="11" class="svg-badge-bg"/>
+          <text x="270" y="64" class="svg-badge-text" font-size="11" font-weight="700" text-anchor="middle">2</text>
+          <text x="330" y="78" class="svg-text-primary" font-size="13" font-weight="600" text-anchor="middle">方案设计</text>
+          <text x="330" y="98" class="svg-text-secondary" font-size="10" text-anchor="middle">架构规划</text>
+
+          <rect x="465" y="45" width="150" height="70" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <circle cx="480" cy="60" r="11" class="svg-badge-bg"/>
+          <text x="480" y="64" class="svg-badge-text" font-size="11" font-weight="700" text-anchor="middle">3</text>
+          <text x="540" y="78" class="svg-text-primary" font-size="13" font-weight="600" text-anchor="middle">开发实现</text>
+          <text x="540" y="98" class="svg-text-secondary" font-size="10" text-anchor="middle">编码与集成</text>
+
+          <!-- 第二行：步骤 4-5（反向蛇形） -->
+          <rect x="465" y="185" width="150" height="70" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <circle cx="480" cy="200" r="11" class="svg-badge-bg"/>
+          <text x="480" y="204" class="svg-badge-text" font-size="11" font-weight="700" text-anchor="middle">4</text>
+          <text x="540" y="218" class="svg-text-primary" font-size="13" font-weight="600" text-anchor="middle">测试验证</text>
+          <text x="540" y="238" class="svg-text-secondary" font-size="10" text-anchor="middle">质量保障</text>
+
+          <rect x="255" y="185" width="150" height="70" rx="8" class="svg-node-accent" stroke="#c96442" stroke-width="2" filter="url(#shadow)"/>
+          <circle cx="270" cy="200" r="11" class="svg-badge-bg-accent"/>
+          <text x="270" y="204" class="svg-badge-text" font-size="11" font-weight="700" text-anchor="middle">5</text>
+          <text x="330" y="218" class="svg-text-primary" font-size="13" font-weight="600" text-anchor="middle">上线发布</text>
+          <text x="330" y="238" class="svg-text-secondary" font-size="10" text-anchor="middle">部署运维</text>
+
+          <text x="400" y="320" class="svg-text-secondary" font-size="10" text-anchor="middle" opacity="0.5">流程关系：从需求到上线的标准交付流程</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         图 3：层次结构示例
+         ============================================================ -->
+    <div class="diagram-card">
+      <div class="diagram-label">
+        <span class="label-tag">层次结构</span>
+        <span class="label-title">第三段：概念包含与从属</span>
+      </div>
+      <div class="diagram-body">
+        <svg class="diagram-svg" viewBox="0 0 800 400">
+          <defs>
+            <marker id="arrow3" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" class="svg-arrow"/>
+            </marker>
+          </defs>
+
+          <!-- 根节点到子节点的连接线 -->
+          <line x1="400" y1="90" x2="200" y2="158" class="svg-line" stroke-width="1" marker-end="url(#arrow3)"/>
+          <line x1="400" y1="90" x2="400" y2="158" class="svg-line" stroke-width="1" marker-end="url(#arrow3)"/>
+          <line x1="400" y1="90" x2="600" y2="158" class="svg-line" stroke-width="1" marker-end="url(#arrow3)"/>
+
+          <!-- 子节点到孙节点的连接线 -->
+          <line x1="200" y1="230" x2="130" y2="298" class="svg-line" stroke-width="1" marker-end="url(#arrow3)"/>
+          <line x1="200" y1="230" x2="270" y2="298" class="svg-line" stroke-width="1" marker-end="url(#arrow3)"/>
+          <line x1="600" y1="230" x2="530" y2="298" class="svg-line" stroke-width="1" marker-end="url(#arrow3)"/>
+          <line x1="600" y1="230" x2="670" y2="298" class="svg-line" stroke-width="1" marker-end="url(#arrow3)"/>
+
+          <!-- 根节点 -->
+          <rect x="310" y="40" width="180" height="60" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="2" filter="url(#shadow)"/>
+          <text x="400" y="75" class="svg-text-primary" font-size="15" font-weight="700" text-anchor="middle">核心主题</text>
+
+          <!-- 第二层 -->
+          <rect x="120" y="160" width="160" height="60" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <text x="200" y="195" class="svg-text-primary" font-size="13" font-weight="600" text-anchor="middle">子主题 A</text>
+
+          <rect x="320" y="160" width="160" height="60" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <text x="400" y="195" class="svg-text-primary" font-size="13" font-weight="600" text-anchor="middle">子主题 B</text>
+
+          <rect x="520" y="160" width="160" height="60" rx="8" class="svg-node" stroke="#7a6e5e" stroke-width="1.5" filter="url(#shadow)"/>
+          <text x="600" y="195" class="svg-text-primary" font-size="13" font-weight="600" text-anchor="middle">子主题 C</text>
+
+          <!-- 第三层 -->
+          <rect x="55" y="300" width="150" height="50" rx="6" class="svg-node" stroke="#7a6e5e" stroke-width="1" filter="url(#shadow)"/>
+          <text x="130" y="330" class="svg-text-primary" font-size="12" font-weight="500" text-anchor="middle">细节 A-1</text>
+
+          <rect x="215" y="300" width="110" height="50" rx="6" class="svg-node" stroke="#7a6e5e" stroke-width="1" filter="url(#shadow)"/>
+          <text x="270" y="330" class="svg-text-primary" font-size="12" font-weight="500" text-anchor="middle">细节 A-2</text>
+
+          <rect x="475" y="300" width="110" height="50" rx="6" class="svg-node" stroke="#7a6e5e" stroke-width="1" filter="url(#shadow)"/>
+          <text x="530" y="330" class="svg-text-primary" font-size="12" font-weight="500" text-anchor="middle">细节 C-1</text>
+
+          <rect x="615" y="300" width="110" height="50" rx="6" class="svg-node" stroke="#7a6e5e" stroke-width="1" filter="url(#shadow)"/>
+          <text x="670" y="330" class="svg-text-primary" font-size="12" font-weight="500" text-anchor="middle">细节 C-2</text>
+
+          <text x="400" y="385" class="svg-text-secondary" font-size="10" text-anchor="middle" opacity="0.5">层次结构：从核心主题到细节的包含关系</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 页脚 -->
+    <p class="footer">文本逻辑关系图 - 由逻辑图生成技能自动生成</p>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      var b = document.body, c = b.getAttribute('data-theme') || 'dark';
+      var n = c === 'dark' ? 'light' : 'dark';
+      b.setAttribute('data-theme', n);
+      try { localStorage.setItem('logic-diagram-theme', n); } catch(e) {}
+    }
+    (function() {
+      try { var s = localStorage.getItem('logic-diagram-theme'); if (s) document.body.setAttribute('data-theme', s); } catch(e) {}
+    })();
+  </script>
+</body>
+</html>

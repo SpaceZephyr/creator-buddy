@@ -1,0 +1,7 @@
+interface:
+  display_name: "微信公众号排版"
+  short_description: "将文章排成可复制到公众号的HTML预览页"
+  brand_color: "#A16207"
+  default_prompt: "Use $space-wechat-layout to turn this article into a WeChat-ready HTML preview page with copyable rich HTML."
+policy:
+  allow_implicit_invocation: true

@@ -129,16 +129,17 @@ git clone https://github.com/SpaceZephyr/creator-buddy.git
 仓库结构：
 
 ```text
-skills/
-  xhs-hotnotes/
-  global-content-search/
-  gzh-explosive-content-detector/
-  baokuan-article-analysis/
-  baokuan-title-generator/
-xhs-Skills/
-  space-xhs-cover/
-  space-xhs-image/
-  xhs-html/
+gzh-Skills/                    公众号：搜索分析 + 标题 + 配图
+  baokuan-title-generator/       10万+ 爆款标题
+  baokuan-article-analysis/      赛道爆款分析
+  gzh-explosive-content-detector/ 每日爆款收录
+  global-content-search/         全域内容搜索
+  xhs-hotnotes/                  小红书热门笔记
+  space-chart-image/             配图·图表出图(codex/workbuddy 内置模型)
+  space-text-logic-diagram/      配图·逻辑关系图(HTML/图片)
+  space-wechat-layout/           整篇公众号排版(HTML)
+xhs-Skills/                    小红书：起号全流程
+video-Skills/                  视频创作：选题→脚本→剪辑→B-roll→字幕→配音→封面
 ```
 
 每个子目录都是一个独立 Skill。
