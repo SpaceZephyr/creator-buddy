@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/spacezephyr-creator-buddy-badge.png)](https://mseep.ai/app/spacezephyr-creator-buddy)
+
 <h1 align="center">Creator Buddy</h1>
 
 <p align="center"><code>creator-buddy.skill</code></p>
