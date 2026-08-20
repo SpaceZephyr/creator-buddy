@@ -63,7 +63,8 @@ ffmpeg -i "00_参考/原视频.mp4" -vn -ar 16000 -ac 1 "00_参考/audio.wav"
 
 ## 编排（复用已有能力）
 
-- 逐字稿/转写 → 走用户的 `youtube-transcript-cn`、`content-digest`
+- 五个平台链接的逐字稿/转写与按需下载 → 走 `space-video-transcript`
+- 已有长文稿的内容消化 → 走 `content-digest`
 - 标题批量生成与评分 → 走用户的 `baokuan-title-generator`
 - 选题采集/生成 → 走用户的 `topic-generator` / `topic-collector`
 

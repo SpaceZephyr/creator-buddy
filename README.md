@@ -76,6 +76,7 @@ video-Skills/   视频     ── 选题 · 脚本 · 剪辑 · B-roll · 字幕
 |---|---|
 | `space-video` | **总控/导演**：判断走哪步、路由子技能、成片后复盘 |
 | `space-video-topic` | 选题：下载参考去水印 · 逐字稿 · 标题 · 正文 |
+| `space-video-transcript` | **链接转字幕**：YouTube/小宇宙/B站/抖音/小红书 → Markdown + SRT，完成后再按需下载源文件 |
 | `space-video-script` | 脚本：去 AI 味口播 + 精确到秒分镜 |
 | `space-video-edit` | 剪辑：剪口播（删前保后 + 风险分层）+ 成片 |
 | `space-video-broll` | B-roll：HTML→确定性 MP4，多风格、Anti-PPT |
@@ -167,6 +168,7 @@ video-Skills/     视频创作：选题→脚本→剪辑→B-roll→字幕→�
 这篇文章帮我起 10 个爆款标题，标好方法和风险
 把这段内容做成公众号配图
 帮我把这条口播视频从头做到发：选题、脚本、剪辑、字幕、配乐、封面
+把这个 YouTube / 小宇宙 / B站 / 抖音 / 小红书链接提取成字幕
 给这篇文章做一支手绘图解 B-roll
 ```
 

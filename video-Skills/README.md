@@ -8,6 +8,7 @@
 |---|---|
 | **space-video** | 总控/导演：判断走哪步、路由子技能、成片后复盘 |
 | **space-video-topic** | 选题前端：下载去水印 · 逐字稿 · 选题/钩子 · 标题 · 正文 |
+| **space-video-transcript** | 五个平台链接转 Markdown/SRT；字幕完成后询问是否下载原视频/音频 |
 | **space-video-script** | 脚本：去 AI 味口播稿 + 精确到秒分镜 |
 | **space-video-edit** | 剪辑：剪口播（删前保后 + 风险分层）+ 口播成片 |
 | **space-video-broll** | B-roll：HTML→确定性 MP4 的动画/motion 画面（代码渲染） |
@@ -19,6 +20,8 @@
 ## 串联用法
 
 ```
+发送 YouTube / 小宇宙 / B站 / 抖音 / 小红书链接 → space-video-transcript 先提字幕 → 再询问是否下载源文件
+
 说「从头帮我做一条视频」→ space-video 接管，逐环节调子技能，文件落盘交接
 ```
 

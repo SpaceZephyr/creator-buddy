@@ -27,11 +27,12 @@ description: 视频创作总控/导演。把一条视频从「参考素材 → �
 | 用户的话 / 手里的东西 | 派给 |
 |---|---|
 | 「不知道拍什么」「帮我想选题」「这条爆款拆一下」「起标题」 | `space-video-topic` |
+| 发送 YouTube/小宇宙/B站/抖音/小红书链接，要求「提取字幕/逐字稿/下载视频」 | `space-video-transcript` |
 | 「稿子写一下」「口播脚本」「这段太 AI 了」「精确到秒的分镜」 | `space-video-script` |
 | 「剪一下这条录屏」「口误删掉」「做成片」「时间轴」 | `space-video-edit` |
 | 「加点动画」「B-roll」「做个 motion 开场」「HTML 转视频」 | `space-video-broll`（代码渲染，确定性、免费） |
 | 「文章转图解视频」「手绘白板动图」「Seedance/libtv 出 B-roll」 | `space-video-broll-sketch`（调视频模型生成） |
-| 「上字幕」「转写」「srt」「烧录字幕」 | `space-video-subtitle` |
+| 对本地成片说「上字幕」「断句」「字幕校对」「烧录字幕」 | `space-video-subtitle` |
 | 「配音」「配乐」「加 BGM」「找音乐」「TTS 旁白」「混音」 | `space-video-audio` |
 | 「做封面」「缩略图」「首图」 | `space-video-cover` |
 | 「从头帮我做一条」 | 从①开始，逐环节走 |

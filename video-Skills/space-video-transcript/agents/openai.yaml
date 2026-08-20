@@ -1,0 +1,4 @@
+interface:
+  display_name: "视频链接字幕提取"
+  short_description: "五个平台链接一键提取字幕，完成后按用户选择下载原视频"
+  default_prompt: "使用 $space-video-transcript 提取这个链接的字幕，完成后询问我是否下载原视频。"
