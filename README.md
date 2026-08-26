@@ -30,21 +30,25 @@ Creator Buddy 是一套给内容创作者、运营和自媒体作者用的**全�
 ## 三大板块
 
 ```text
-gzh-Skills/     公众号   ── 搜爆款 · 起标题 · 出配图 · 整篇排版
+gzh-Skills/     公众号   ── 定位装修 · 搜爆款 · 写长短文 · 起标题 · 做封面 · 出配图 · 整篇排版
 xhs-Skills/     小红书   ── 定位 · 选题 · 标题 · 正文 · 封面 · 图文 · 复盘
 video-Skills/   视频     ── 选题 · 脚本 · 剪辑 · B-roll · 字幕 · 配音配乐 · 封面
 ```
 
 ### 📰 公众号 · `gzh-Skills`
 
-从赛道情报到配图排版。
+从账号定位到写稿、起标题、配图排版。
 
 | Skill | 干什么 |
 |---|---|
+| `gzh-positioning` | **定位**：账号简介 / 关注后回复 / 菜单三件套，带微信字数校验 |
+| `gzh-longform-writer` | **长文**：六种写法路由（访谈/大纲/续写/整合/破题/重写）+ 成稿质检 |
+| `gzh-short-post` | **短文**：≤1000 字纯文字推送，去 AI 腔风格规则 + 输出前自检清单 |
 | `baokuan-article-analysis` | 按赛道/关键词抓公众号爆款，做数据洞察 |
 | `gzh-explosive-content-detector` | 每日爆款收录（低粉高阅读、数据增长中） |
 | `global-content-search` | 全域内容搜索（小红书/B站/抖音关键词、详情、评论） |
 | `baokuan-title-generator` | 科技/AI 领域 10万+ 爆款标题生成、评分、A/B |
+| `space-gzh-cover` | **封面**：2.35:1 头图，内置分享安全区校验与裁切预览 |
 | `space-chart-image` | **配图**：10 类图表（流程/架构/思维导图/SWOT…） |
 | `space-text-logic-diagram` | **配图**：文本逻辑拆解 → 逻辑关系图 |
 | `space-wechat-layout` | **排版**：整篇文章 → 公众号 HTML（一键复制） |
@@ -145,7 +149,7 @@ git clone https://github.com/SpaceZephyr/creator-buddy.git
 仓库结构：
 
 ```text
-gzh-Skills/       公众号：搜索分析 + 标题 + 配图
+gzh-Skills/       公众号：定位装修 + 搜索分析 + 长短文写作 + 标题 + 封面配图
 xhs-Skills/       小红书：起号全流程（10 个 Skill）
 video-Skills/     视频创作：选题→脚本→剪辑→B-roll→字幕→配音→封面
 ```
@@ -196,7 +200,7 @@ Creator Buddy 不是一个单一爬虫，而是一组内容创作 Skill，分两
 
 ## 适合谁
 
-- **公众号作者**：找近期爆款、判断方向、起标题、出配图、整篇排版
+- **公众号作者**：做账号定位、找近期爆款、判断方向、写长文短文、起标题、做封面、出配图、整篇排版
 - **小红书运营**：定位、选题、写笔记、做封面图文、账号体检与复盘
 - **视频/口播创作者**：选题脚本、剪口播、B-roll 动效、字幕配乐封面
 - **自媒体 / 增长团队**：跨平台监控内容趋势、拆爆款、还原用户语境
